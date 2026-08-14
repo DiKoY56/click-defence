@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bpdndditycebv"]
+
+[ext_resource type="Script" uid="uid://dfoukfxsxnrf0" path="res://scripts/hud.gd" id="1_0mwgc"]
+
+[node name="HUD" type="Control" unique_id=1231931579]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_0mwgc")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1163924479]
+modulate = Color(0.41568628, 1, 0.4862745, 1)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 315.0
+offset_bottom = 42.0
+mouse_filter = 2
+show_percentage = false
+
+[node name="GoldenLabel" type="Label" parent="." unique_id=737741235]
+modulate = Color(1, 0.99607843, 0, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 56.0
+offset_right = 94.0
+offset_bottom = 79.0
+text = "Золото: 0"
+
+[node name="ClickUpgradeButton" type="Button" parent="." unique_id=609884320]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_left = 156.0
+offset_top = 52.0
+offset_right = 314.0
+offset_bottom = 83.0
+text = "Улучшение"
