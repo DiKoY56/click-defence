@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://782f4mqg8ooq" path="res://scripts/base.gd" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bpdndditycebv" path="res://scenes/ui/hud.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://f5h315wqjqjo" path="res://scripts/enemy_spawner.gd" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://drh4h524e8d2o" path="res://scenes/tower.tscn" id="5_tefeu"]
 
 [sub_resource type="Curve2D" id="Curve2D_o5qli"]
 _data = {
@@ -33,3 +34,5 @@ base = NodePath("../Base")
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner" unique_id=1178747248]
 autostart = true
+
+[node name="Tower" parent="." unique_id=1971956930 instance=ExtResource("5_tefeu")]

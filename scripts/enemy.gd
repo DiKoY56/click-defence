@@ -17,14 +17,15 @@ var target_index: int = 0       # к какой точке сейчас идём
 func _ready() -> void:
 	health = max_health
 	input_event.connect(_on_input_event)
+	add_to_group("enemies")
 
-	# Защита от "забыл настроить": лучше явная ошибка, чем молчаливое ничего
+	
 	if path == null or path.curve == null:
 		push_error("Враг: не задан путь (path)!")
 		set_process(false)
 		return
 
-	# "Запечённые" точки кривой — много маленьких отрезков, по которым удобно идти
+	#  точки кривой — много маленьких отрезков, по которым удобно идти
 	points = path.curve.get_baked_points()
 	if points.is_empty():
 		push_error("Враг: путь пустой!")
