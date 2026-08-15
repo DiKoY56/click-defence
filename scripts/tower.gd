@@ -1,9 +1,11 @@
 extends Node2D
 @export var damage: float = 5.0
 @export var attack_speed: float = 1.0
+@export var show_range: bool = true   # тумблер для отладки и будущего UX
 
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var range_area: Area2D = $RangeArea
+@onready var range_shape: CircleShape2D = $RangeArea/CollisionShape2D.shape
 
 var targets: Array = []
 
@@ -31,4 +33,10 @@ func _on_shoot_timer() -> void:
 				best = t
 	if best != null:
 		best.take_damage(damage)			
-		
+
+func _draw() -> void:
+	if not show_range:
+		return
+	# полупрозрачная заливка + видимая граница
+	draw_circle(Vector2.ZERO, range_shape.radius, Color(0.3, 0.7, 1.0, 0.12))
+	draw_arc(Vector2.ZERO, range_shape.radius, 0.0, TAU, 48, Color(0.3, 0.7, 1.0, 0.6), 2.0)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dsytuli838oy5"]
+
+[ext_resource type="Script" uid="uid://6yoicbwr7fno" path="res://scripts/tower_slot.gd" id="1_lrx4m"]
+[ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="2_oijv1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
+size = Vector2(128, 129)
+
+[node name="TowerSlot" type="Area2D" unique_id=1869862045]
+script = ExtResource("1_lrx4m")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=547713978]
+modulate = Color(18.892157, 18.892157, 18.892157, 0.07450981)
+texture = ExtResource("2_oijv1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=92911379]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_tefeu")
