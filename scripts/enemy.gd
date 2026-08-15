@@ -1,7 +1,8 @@
+class_name Enemy
 extends Area2D
 
 # --- Настройки (видны в инспекторе) ---
-@export var max_health: float = 10.0
+@export var max_health: float = 6.0
 @export var speed: float = 120.0
 @export var path: Path2D 
 @export var base:Base

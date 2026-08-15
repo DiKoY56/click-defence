@@ -21,4 +21,3 @@ func buy_click_upgrade() -> bool:
 	else: return false
 	
 	
-	
