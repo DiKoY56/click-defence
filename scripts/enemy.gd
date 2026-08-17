@@ -9,6 +9,9 @@ extends Area2D
 @export var damage_to_base: float = 5.0
 @export var gold_reward: float = 5.0
 
+const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
+
+
 # --- Внутреннее состояние ---
 var health: float
 var points: PackedVector2Array  # массив точек пути
@@ -69,12 +72,20 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 	if event is InputEventMouseButton \
 		and event.button_index == MOUSE_BUTTON_LEFT \
 		and event.pressed:
+		get_viewport().set_input_as_handled()
 		take_damage(UpgradeManager.get_click_damage())
 
 func take_damage(amount: float) -> void:
 	if health <= 0.0:
 		return
 	health -= amount
+	var str_amount = str(amount)
+	var text_damage: FloatingText = text_scene.instantiate() as FloatingText
+	var main_scene = get_tree().current_scene
+	main_scene.add_child(text_damage)
+	text_damage.setup(str_amount)
+	text_damage.global_position = global_position + Vector2(randf_range(-10, 10), randf_range(-10, 10))
+	
 	print("Попадание! Осталось HP: ", health)
 	if health <= 0.0:
 		die()
