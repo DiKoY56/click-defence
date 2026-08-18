@@ -1,6 +1,6 @@
 extends Area2D
 
-const TOWER_COST: float = 25.0
+const TOWER_COST: int = 25
 var is_occupied: bool = false
 const TowerScene: PackedScene = preload	("res://scenes/tower.tscn")
 

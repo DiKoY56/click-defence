@@ -18,8 +18,8 @@ func spawn_enemy() -> void:
 	add_child(enemy)
 	
 func _ready() -> void:
-	spawn_timer.start()
 	spawn_timer.wait_time = spawn_interval
+	spawn_timer.start()
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	
 func _on_spawn_timer() -> void:

@@ -8,6 +8,5 @@ script = ExtResource("1_lgwrg")
 [node name="Label" type="Label" parent="." unique_id=1263775282]
 offset_right = 40.0
 offset_bottom = 23.0
-theme_override_colors/font_color = Color(0.9882353, 0.43529412, 0.5137255, 1)
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1

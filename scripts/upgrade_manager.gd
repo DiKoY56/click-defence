@@ -1,17 +1,25 @@
 extends Node
 
-const BASE_COST = 10.0
-const COST_GROWTH = 1.5
-const DAMAGE_STEP = 1.0
+const BASE_COST: int = 10
+const COST_GROWTH: float = 1.5
+const DAMAGE_STEP: int = 1
+
+#CRIT
+const CRIT_CHANCE: float = 0.1
+const CRIT_MULTIPLIER: int = 3
 
 var click_level: int = 0
 
-func get_click_damage() -> float:
-	var damage = 1.0 + DAMAGE_STEP * click_level
+func is_crit() -> bool:
+	return randf() < CRIT_CHANCE
+
+func get_click_damage() -> int:
+	var damage = 1 + DAMAGE_STEP * click_level
 	return damage
 
-func get_click_upgrade_cost() -> float:
-	var cost = BASE_COST * pow(COST_GROWTH,click_level)
+func get_click_upgrade_cost() -> int:
+	#var cost = BASE_COST * pow(COST_GROWTH,click_level)
+	var cost = int(ceil(BASE_COST * pow(COST_GROWTH, click_level)))
 	return cost
 
 func buy_click_upgrade() -> bool:

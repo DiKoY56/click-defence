@@ -15,11 +15,11 @@ func _ready() -> void:
 	_on_base_health_changed(base.health)
 	refresh_shop()
 	
-func _on_gold_changed(new_amount: float) -> void:
-	gold_label.text = "Золото: " + str(int(new_amount))
+func _on_gold_changed(new_amount: int) -> void:
+	gold_label.text = "Золото: " + str(new_amount)
 	refresh_shop()
 	
-func _on_base_health_changed(current: float) -> void:
+func _on_base_health_changed(current: int) -> void:
 	health_bar.value = current
 
 func refresh_shop() -> void:

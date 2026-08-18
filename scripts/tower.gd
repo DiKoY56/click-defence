@@ -1,5 +1,5 @@
 extends Node2D
-@export var damage: float = 5.0
+@export var damage: int = 5
 @export var attack_speed: float = 1.0
 @export var show_range: bool = true   # тумблер для отладки и будущего UX
 

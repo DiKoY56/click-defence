@@ -2,18 +2,18 @@ class_name Enemy
 extends Area2D
 
 # --- Настройки (видны в инспекторе) ---
-@export var max_health: float = 8.0
+@export var max_health: int = 8
 @export var speed: float = 120.0
 @export var path: Path2D 
 @export var base:Base
-@export var damage_to_base: float = 5.0
-@export var gold_reward: float = 5.0
+@export var damage_to_base: int = 5
+@export var gold_reward: int = 5
 
 const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
 
 
 # --- Внутреннее состояние ---
-var health: float
+var health: int
 var points: PackedVector2Array  # массив точек пути
 var target_index: int = 0       # к какой точке сейчас идём
 
@@ -73,21 +73,28 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		and event.button_index == MOUSE_BUTTON_LEFT \
 		and event.pressed:
 		get_viewport().set_input_as_handled()
-		take_damage(UpgradeManager.get_click_damage())
+		var damage := UpgradeManager.get_click_damage()
+		var color: Color = Color.WHITE
+		var is_critical: bool = UpgradeManager.is_crit()
+		if is_critical:
+			damage *= UpgradeManager.CRIT_MULTIPLIER
+			color = Color.RED
+		take_damage(damage, color, is_critical)
+		#take_damage(UpgradeManager.get_click_damage())
 
-func take_damage(amount: float) -> void:
-	if health <= 0.0:
+func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) -> void:
+	if health <= 0:
 		return
 	health -= amount
 	var str_amount = str(amount)
 	var text_damage: FloatingText = text_scene.instantiate() as FloatingText
 	var main_scene = get_tree().current_scene
 	main_scene.add_child(text_damage)
-	text_damage.setup(str_amount)
+	text_damage.setup(str_amount, color, crit)
 	text_damage.global_position = global_position + Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	
 	print("Попадание! Осталось HP: ", health)
-	if health <= 0.0:
+	if health <= 0:
 		die()
 
 func die() -> void:
