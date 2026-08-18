@@ -7,6 +7,8 @@ extends Node2D
 @onready var range_area: Area2D = $RangeArea
 @onready var range_shape: CircleShape2D = $RangeArea/CollisionShape2D.shape
 
+const ProjectileScene: PackedScene = preload("res://scenes/effects/projectile.tscn")
+
 var targets: Array = []
 
 func _ready() -> void:
@@ -32,7 +34,11 @@ func _on_shoot_timer() -> void:
 				best_progress = t.target_index
 				best = t
 	if best != null:
-		best.take_damage(damage)			
+		var projectile: Projectile = ProjectileScene.instantiate() as Projectile
+		projectile.target = best        # сначала ссылки
+		projectile.damage = damage      #  урон
+		get_tree().current_scene.add_child(projectile)  # потом в дерево
+		projectile.global_position = global_position
 
 func _draw() -> void:
 	if not show_range:

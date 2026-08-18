@@ -5,6 +5,7 @@ extends Node2D
 const CRIT_FONT: Font = preload("res://assets/fonts/PressStart2P-Regular.ttf")
 	
 func setup(text: String, color: Color = Color.WHITE, is_crit:bool = false) -> void:
+	z_index = 10
 	label.text = text
 	label.add_theme_color_override("font_color", color)
 	if is_crit:
