@@ -1,7 +1,11 @@
 extends Area2D
 
+@onready var build_sound: AudioStreamPlayer = $BuildSound
+
 const TOWER_COST: int = 25
+
 var is_occupied: bool = false
+
 const TowerScene: PackedScene = preload	("res://scenes/tower.tscn")
 
 func _ready() -> void:
@@ -26,4 +30,5 @@ func try_build() -> void:
 	is_occupied = true
 	input_pickable = false
 	$Sprite2D.visible = false
+	build_sound.play()
 	print("Башня построена!")
