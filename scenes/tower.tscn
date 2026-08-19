@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cudovw5lp2phe" path="res://scripts/tower.gd" id="1_ay4al"]
 [ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="2_ktxwe"]
+[ext_resource type="AudioStream" uid="uid://clmrfs0txmhn4" path="res://assets/audio/shoot.wav" id="3_ktxwe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qrbg1"]
 radius = 241.4
@@ -21,3 +22,6 @@ shape = SubResource("CircleShape2D_qrbg1")
 
 [node name="ShootTimer" type="Timer" parent="." unique_id=2094703131]
 autostart = true
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="." unique_id=1894323162]
+stream = ExtResource("3_ktxwe")

@@ -6,6 +6,7 @@ extends Node2D
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var range_area: Area2D = $RangeArea
 @onready var range_shape: CircleShape2D = $RangeArea/CollisionShape2D.shape
+@onready var shoot_sound: AudioStreamPlayer2D = $ShootSound
 
 const ProjectileScene: PackedScene = preload("res://scenes/effects/projectile.tscn")
 
@@ -39,6 +40,8 @@ func _on_shoot_timer() -> void:
 		projectile.damage = damage      #  урон
 		get_tree().current_scene.add_child(projectile)  # потом в дерево
 		projectile.global_position = global_position
+		shoot_sound.pitch_scale = randf_range(0.9, 1.1)
+		shoot_sound.play()
 
 func _draw() -> void:
 	if not show_range:
