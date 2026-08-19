@@ -10,7 +10,7 @@ extends Area2D
 @export var gold_reward: int = 5
 
 const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
-
+const DeathSound: AudioStream = preload("res://assets/audio/death.wav")
 
 # --- Внутреннее состояние ---
 var health: int
@@ -99,5 +99,15 @@ func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) ->
 
 func die() -> void:
 	EconomyManager.add_gold(gold_reward)
-	print("Враг погиб")
+	play_death_sound()
 	queue_free()
+
+func play_death_sound() -> void:
+	var player := AudioStreamPlayer2D.new()
+	player.stream = DeathSound
+	player.position = global_position
+	player.volume_db = -6
+	get_tree().current_scene.add_child(player)
+	player.finished.connect(player.queue_free)
+	player.play()
+	
