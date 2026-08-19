@@ -11,6 +11,8 @@ extends Area2D
 
 const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
 const DeathSound: AudioStream = preload("res://assets/audio/death.wav")
+const HitSound: AudioStream = preload("res://assets/audio/hit.wav")
+const CritHitSound: AudioStream = preload("res://assets/audio/crit.wav")
 
 # --- Внутреннее состояние ---
 var health: int
@@ -80,7 +82,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 			damage *= UpgradeManager.CRIT_MULTIPLIER
 			color = Color.RED
 		take_damage(damage, color, is_critical)
-		#take_damage(UpgradeManager.get_click_damage())
+		play_hit_sound(is_critical)
 
 func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) -> void:
 	if health <= 0:
@@ -106,7 +108,23 @@ func play_death_sound() -> void:
 	var player := AudioStreamPlayer2D.new()
 	player.stream = DeathSound
 	player.position = global_position
-	player.volume_db = -7
+	player.pitch_scale = randf_range(0.90, 1.05)
+	player.volume_db = -8
+	get_tree().current_scene.add_child(player)
+	player.finished.connect(player.queue_free)
+	player.play()
+
+func play_hit_sound(is_crit: bool = false) -> void:
+	var player := AudioStreamPlayer2D.new()
+	if is_crit:
+		player.stream = CritHitSound
+		player.pitch_scale = randf_range(0.90, 1.05)
+		player.volume_db = -8
+	else:
+		player.stream = HitSound
+		player.pitch_scale = randf_range(0.90, 1.05)
+		player.volume_db = -5
+	player.position = global_position
 	get_tree().current_scene.add_child(player)
 	player.finished.connect(player.queue_free)
 	player.play()
