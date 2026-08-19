@@ -106,7 +106,7 @@ func play_death_sound() -> void:
 	var player := AudioStreamPlayer2D.new()
 	player.stream = DeathSound
 	player.position = global_position
-	player.volume_db = -6
+	player.volume_db = -7
 	get_tree().current_scene.add_child(player)
 	player.finished.connect(player.queue_free)
 	player.play()

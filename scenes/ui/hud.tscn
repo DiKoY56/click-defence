@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bpdndditycebv"]
 
 [ext_resource type="Script" uid="uid://dfoukfxsxnrf0" path="res://scripts/hud.gd" id="1_0mwgc"]
+[ext_resource type="AudioStream" uid="uid://dapn0w1sq6gkt" path="res://assets/audio/buy.wav" id="2_hqnrr"]
 
 [node name="HUD" type="Control" unique_id=1231931579]
 layout_mode = 3
@@ -39,3 +40,7 @@ offset_top = 52.0
 offset_right = 314.0
 offset_bottom = 83.0
 text = "Улучшение"
+
+[node name="PurchaseSound" type="AudioStreamPlayer" parent="." unique_id=273849076]
+stream = ExtResource("2_hqnrr")
+volume_db = -14.858

@@ -5,6 +5,7 @@ extends Control
 @onready var gold_label: Label = $GoldenLabel
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var upgrade_button: Button = $ClickUpgradeButton
+@onready var purchase_sound: AudioStreamPlayer = $PurchaseSound
 
 func _ready() -> void:
 	EconomyManager.gold_changed.connect(_on_gold_changed)
@@ -28,6 +29,7 @@ func refresh_shop() -> void:
 	
 func _on_click_upgrade_pressed() -> void:
 	if UpgradeManager.buy_click_upgrade() == true:
+		purchase_sound.play()
 		refresh_shop()
 	else:
 		print("денег нет!")
