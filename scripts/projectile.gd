@@ -3,8 +3,10 @@ extends Node2D
 
 var target = null
 var damage: int = 5          # башня передаёт свой урон
-var speed: float = 900.0
-var fly_to: Vector2          # точка полёта: живая цель или её последняя позиция
+var speed: float = 500.0
+var fly_to: Vector2          # точка полёта: живая цель или её последняя позицияэ
+ 	
+@export var spins_per_second: float = 1.0   # оборотов в секунду
 
 func _ready() -> void:
 	if is_instance_valid(target):
@@ -29,6 +31,8 @@ func _process(delta: float) -> void:
 
 	var direction: Vector2 = (fly_to - global_position).normalized()
 	global_position += direction * step
+	
+	rotation += TAU * spins_per_second * delta
 
-func _draw() -> void:
-	draw_circle(Vector2.ZERO, 5.0, Color.YELLOW)
+#func _draw() -> void:
+	#draw_circle(Vector2.ZERO, 5.0, Color.YELLOW)

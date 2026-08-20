@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://brjftb2rlvtdk"]
 
-[ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="1_pvqg0"]
+[ext_resource type="Texture2D" uid="uid://jx2k4e847cbc" path="res://assets/art/base.png" id="1_pvqg0"]
 
 [node name="Base" type="Node2D" unique_id=1925964350]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=220822217]
-modulate = Color(1, 0, 1, 1)
 position = Vector2(1770, 820)
+scale = Vector2(9, 9)
 texture = ExtResource("1_pvqg0")
 
 [node name="DamageBaseSound" type="AudioStreamPlayer2D" parent="." unique_id=785702528]

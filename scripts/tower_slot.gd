@@ -21,7 +21,6 @@ func try_build() -> void:
 	if is_occupied:
 		return
 	if EconomyManager.try_spend(TOWER_COST) == false:
-		print("Не хватает золотишка на башню!")
 		return
 		
 	var tower = TowerScene.instantiate()
@@ -31,4 +30,4 @@ func try_build() -> void:
 	input_pickable = false
 	$Sprite2D.visible = false
 	build_sound.play()
-	print("Башня построена!")
+	

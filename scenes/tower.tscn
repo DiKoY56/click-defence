@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://drh4h524e8d2o"]
 
 [ext_resource type="Script" uid="uid://cudovw5lp2phe" path="res://scripts/tower.gd" id="1_ay4al"]
-[ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="2_ktxwe"]
-[ext_resource type="AudioStream" uid="uid://clmrfs0txmhn4" path="res://assets/audio/shoot.wav" id="3_ktxwe"]
+[ext_resource type="Texture2D" uid="uid://e73iyux5fvmx" path="res://assets/art/tower_grmo.png" id="2_ktxwe"]
+[ext_resource type="AudioStream" uid="uid://dr1adx5iim24d" path="res://assets/audio/cat_projectile1.wav" id="3_ktxwe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qrbg1"]
 radius = 241.4
@@ -11,7 +11,7 @@ radius = 241.4
 script = ExtResource("1_ay4al")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1259374390]
-modulate = Color(0.79383296, 0.35135552, 0.06335665, 1)
+scale = Vector2(3, 3)
 texture = ExtResource("2_ktxwe")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=1748941058]
@@ -25,3 +25,4 @@ autostart = true
 
 [node name="ShootSound" type="AudioStreamPlayer2D" parent="." unique_id=1894323162]
 stream = ExtResource("3_ktxwe")
+volume_db = -6.808

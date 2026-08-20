@@ -20,6 +20,7 @@ scale = Vector2(0.99814814, 1)
 curve = SubResource("Curve2D_o5qli")
 
 [node name="Base" parent="." unique_id=1925964350 instance=ExtResource("2_0wfyh")]
+position = Vector2(-9, 0)
 script = ExtResource("3_sugp2")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=600593937]
@@ -43,3 +44,6 @@ position = Vector2(617, 976)
 
 [node name="TowerSlot3" parent="." unique_id=1846753400 instance=ExtResource("6_tefeu")]
 position = Vector2(1007, 512)
+
+[node name="TowerSlot4" parent="." unique_id=1207936927 instance=ExtResource("6_tefeu")]
+position = Vector2(404, 184)
