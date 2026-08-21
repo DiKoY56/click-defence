@@ -1,19 +1,19 @@
 extends Control
 
-@export var base: Base
-
 @onready var gold_label: Label = $GoldenLabel
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var upgrade_button: Button = $ClickUpgradeButton
 @onready var purchase_sound: AudioStreamPlayer = $PurchaseSound
 
+var base: Base
+
 func _ready() -> void:
 	EconomyManager.gold_changed.connect(_on_gold_changed)
-	base.health_changed.connect(_on_base_health_changed)
+	#base.health_changed.connect(_on_base_health_changed)
 	upgrade_button.pressed.connect(_on_click_upgrade_pressed)
-	health_bar.max_value = base.max_health
+	#health_bar.max_value = base.max_health
 	_on_gold_changed(EconomyManager.gold)
-	_on_base_health_changed(base.health)
+	#_on_base_health_changed(base.health)
 	refresh_shop()
 	
 func _on_gold_changed(new_amount: int) -> void:
@@ -33,3 +33,9 @@ func _on_click_upgrade_pressed() -> void:
 		refresh_shop()
 	else:
 		print("денег нет!")
+
+func setup(new_base: Base) -> void:
+	base = new_base
+	base.health_changed.connect(_on_base_health_changed)
+	health_bar.max_value = base.max_health
+	_on_base_health_changed(base.health)

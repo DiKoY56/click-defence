@@ -19,7 +19,7 @@ func spawn_enemy() -> void:
 	
 func _ready() -> void:
 	spawn_timer.wait_time = spawn_interval
-	spawn_timer.start()
+	
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	
 func _on_spawn_timer() -> void:
@@ -32,3 +32,6 @@ func _on_spawn_timer() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_E:
 		spawn_enemy()
+		
+func start_spawning() -> void:
+	spawn_timer.start()

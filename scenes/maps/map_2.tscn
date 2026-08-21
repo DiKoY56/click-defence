@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bf0kcyl7r1nu"]
+
+[ext_resource type="Script" uid="uid://cg6qinr2q67hq" path="res://scripts/map.gd" id="1_b84n0"]
+[ext_resource type="PackedScene" uid="uid://brjftb2rlvtdk" path="res://scenes/base.tscn" id="1_lyn70"]
+[ext_resource type="Script" uid="uid://782f4mqg8ooq" path="res://scripts/base.gd" id="2_b84n0"]
+[ext_resource type="PackedScene" uid="uid://dsytuli838oy5" path="res://scenes/tower_slot.tscn" id="3_j3bpy"]
+
+[sub_resource type="Curve2D" id="Curve2D_bbj3u"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -160.20407, 225.99998, 0, 0, 0, 0, 502.02225, 218.99998, 0, 0, 0, 0, 504.02597, 890.99994, 0, 0, 0, 0, 1670.1854, 901.99994, 0, 0, 0, 0, 1670.1854, 290.99997)
+}
+point_count = 5
+
+[node name="Map2" type="Node2D" unique_id=1807934208]
+script = ExtResource("1_b84n0")
+
+[node name="EnemyPath" type="Path2D" parent="." unique_id=1463166567]
+position = Vector2(-0.09259415, 0)
+scale = Vector2(0.99814814, 1)
+curve = SubResource("Curve2D_bbj3u")
+
+[node name="Base" parent="." unique_id=1925964350 instance=ExtResource("1_lyn70")]
+position = Vector2(-66, -646)
+script = ExtResource("2_b84n0")
+
+[node name="TowerSlot" parent="." unique_id=1869862045 instance=ExtResource("3_j3bpy")]
+position = Vector2(362, 380)
+
+[node name="TowerSlot2" parent="." unique_id=1416062428 instance=ExtResource("3_j3bpy")]
+position = Vector2(786, 764)
+
+[node name="TowerSlot3" parent="." unique_id=1815315198 instance=ExtResource("3_j3bpy")]
+position = Vector2(1327, 758)
+
+[node name="TowerSlot4" parent="." unique_id=1334631722 instance=ExtResource("3_j3bpy")]
+position = Vector2(1548, 512)
+
+[node name="TowerSlot5" parent="." unique_id=2124399912 instance=ExtResource("3_j3bpy")]
+position = Vector2(1080, 474)
