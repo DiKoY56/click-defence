@@ -9,4 +9,6 @@ func _ready() -> void:
 	$EnemySpawner.path = map.enemy_path
 	$EnemySpawner.base = map.base
 	$UI/HUD.setup(map.base)
-	$EnemySpawner.start_spawning()
+	
+	WaveManager.setup($EnemySpawner, map.base)  
+	WaveManager.start_game() 

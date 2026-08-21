@@ -4,6 +4,8 @@ extends Control
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var upgrade_button: Button = $ClickUpgradeButton
 @onready var purchase_sound: AudioStreamPlayer = $PurchaseSound
+@onready var wave_label: Label = $WaveLabel  # новый Label в HUD
+@onready var notification_label: Label = $NotificationLabel  # большой Label по центру
 
 var base: Base
 
@@ -37,5 +39,30 @@ func _on_click_upgrade_pressed() -> void:
 func setup(new_base: Base) -> void:
 	base = new_base
 	base.health_changed.connect(_on_base_health_changed)
+	WaveManager.wave_started.connect(_on_wave_started)
+	WaveManager.boss_incoming.connect(_on_boss_incoming)
+	WaveManager.game_won.connect(_on_game_won)
+	WaveManager.game_lost.connect(_on_game_lost)
 	health_bar.max_value = base.max_health
 	_on_base_health_changed(base.health)
+
+func _on_wave_started(wave_number: int) -> void:
+	wave_label.text = "Волна: " + str(wave_number)
+	show_notification("Волна " + str(wave_number) + " началась!")
+
+func _on_boss_incoming() -> void:
+	show_notification("БОСС ПРИБЛИЖАЕТСЯ!")
+
+func show_notification(text: String) -> void:
+	notification_label.text = text
+	notification_label.modulate.a = 1.0
+	var tween := create_tween()
+	tween.tween_property(notification_label, "modulate:a", 0.0, 2.0)
+
+func _on_game_won() -> void:
+	show_notification("ПОБЕДА!")
+	# Позже: экран победы с кнопкой рестарта
+
+func _on_game_lost() -> void:
+	show_notification("ПОРАЖЕНИЕ")
+	# Позже: экран поражения с кнопкой рестарта

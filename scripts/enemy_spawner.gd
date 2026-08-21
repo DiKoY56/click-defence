@@ -1,4 +1,7 @@
+class_name EnemySpawner
 extends Node
+
+signal enemy_died
 
 @export var path: Path2D
 @export var base: Base
@@ -11,15 +14,23 @@ const EnemyScene: PackedScene = preload("res://scenes/enemy.tscn")
 
 var spawned: int = 0
 
+var is_boss_wave: bool = false
+
 func spawn_enemy() -> void:
 	var enemy: Enemy = EnemyScene.instantiate() as Enemy
 	enemy.path = path
 	enemy.base = base
+	
+	if is_boss_wave and spawned == 0:
+		#первый враг на босс-волне это БОСС
+		enemy.max_health *= 10
+		enemy.gold_reward *= 5
+		#попозже другой спрайт и размер
+	enemy.died.connect(_on_enemy_died)
 	add_child(enemy)
 	
 func _ready() -> void:
 	spawn_timer.wait_time = spawn_interval
-	
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	
 func _on_spawn_timer() -> void:
@@ -35,3 +46,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 func start_spawning() -> void:
 	spawn_timer.start()
+
+func set_wave_config(count: int, boss_wave: bool) -> void:
+	enemy_count = count
+	is_boss_wave = boss_wave
+	spawned = 0
+
+func _on_enemy_died() -> void:
+	enemy_died.emit()

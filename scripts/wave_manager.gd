@@ -1,0 +1,78 @@
+extends Node
+
+signal wave_started(wave_number: int)
+signal wave_completed(wave_number: int)
+signal boss_incoming
+signal game_won
+signal game_lost
+
+const TOTAL_WAVES: int = 10
+const WAVE_PAUSE: float = 5.0 
+const BASE_ENEMY_COUNT: int = 5
+const ENEMY_GROWTH: float = 1.4
+
+const BOSS_WAVES: Array[int] = [5, 10]
+const BOSS_HEALTH_MULTIPLIER: int = 10
+
+var current_wave: int = 0
+var enemies_spawned: int = 0
+var enemies_alive: int = 0
+var is_wave_active: bool = false
+
+@onready var wave_timer: Timer = $WaveTimer
+@onready var spawner: EnemySpawner
+@onready var base: Base
+
+func setup(new_spawner: EnemySpawner, new_base: Base) -> void:
+	spawner = new_spawner
+	base = new_base
+	base.destroyed.connect(_on_base_destroyed)
+	spawner.enemy_died.connect(_on_enemy_died)
+	
+func start_game() -> void:
+	current_wave = 0
+	_start_next_wave()
+
+func _start_next_wave() -> void:
+	current_wave += 1
+	
+	if current_wave > TOTAL_WAVES:
+		game_won.emit()
+		return
+	
+	var enemy_count: int = int(BASE_ENEMY_COUNT * pow(ENEMY_GROWTH, current_wave - 1))
+	var is_boss_wave: bool = current_wave in BOSS_WAVES
+	
+	if is_boss_wave:
+		boss_incoming.emit()
+		# На волне босса 1 босс + половина обычных врагов
+		enemy_count = 1 + (enemy_count / 2)
+	
+	enemies_spawned = 0
+	enemies_alive = enemy_count
+	is_wave_active = true
+	
+	spawner.set_wave_config(enemy_count, is_boss_wave)
+	spawner.start_spawning()
+	
+	wave_started.emit(current_wave)
+
+func _on_enemy_died() -> void:
+	if not is_wave_active:
+		return
+	
+	enemies_alive -=1
+	
+	if enemies_alive <= 0:
+		is_wave_active = false
+		wave_completed.emit(current_wave)
+		wave_timer.start(WAVE_PAUSE)
+
+func _on_wave_timer_timeout() -> void:
+	_start_next_wave()
+
+func _on_base_destroyed() -> void:
+	game_lost.emit()
+	
+func _ready() -> void:
+	wave_timer.timeout.connect(_on_wave_timer_timeout)

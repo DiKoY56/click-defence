@@ -1,6 +1,8 @@
 class_name Enemy
 extends Area2D
 
+signal died
+
 # --- Настройки (видны в инспекторе) ---
 @export var max_health: int = 8
 @export var speed: float = 120.0
@@ -66,7 +68,7 @@ func _process(delta: float) -> void:
 
 func _reach_base() -> void:
 		base.take_damage(damage_to_base)
-		print("Враг дошёл до базы!")
+		died.emit()
 		queue_free()
 
 # --- логика кликов ---
@@ -102,6 +104,7 @@ func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) ->
 func die() -> void:
 	EconomyManager.add_gold(gold_reward)
 	play_death_sound()
+	died.emit()
 	queue_free()
 
 func play_death_sound() -> void:

@@ -11,11 +11,9 @@ script = ExtResource("1_sugp2")
 
 [node name="HUD" parent="UI" unique_id=1231931579 instance=ExtResource("4_jyhfs")]
 
-[node name="EnemySpawner" type="Node" parent="." unique_id=1046232085 node_paths=PackedStringArray("path")]
+[node name="EnemySpawner" type="Node" parent="." unique_id=1046232085]
 script = ExtResource("5_tbgi4")
-path = NodePath("")
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner" unique_id=1178747248]
-autostart = true
 
 [node name="MapHolder" type="Node2D" parent="." unique_id=651240990]

@@ -47,7 +47,7 @@ stream = ExtResource("3_ktxwe")
 volume_db = -6.808
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=786090683]
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_24vi4")
 animation = &"idle"
 autoplay = "idle"
