@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://bxbqwtg608c3r"]
+
+[ext_resource type="Script" uid="uid://cgpe62j7j4n26" path="res://scripts/main_menu.gd" id="1_sl1te"]
+[ext_resource type="Texture2D" uid="uid://0q3chu22hxh8" path="res://assets/art/enemy_bomj.png" id="2_x2yvf"]
+[ext_resource type="Texture2D" uid="uid://b0s2em13n3vco" path="res://assets/art/tower_attack_gr5.png" id="3_uhagc"]
+[ext_resource type="Texture2D" uid="uid://jx2k4e847cbc" path="res://assets/art/base.png" id="4_btxxm"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="5_wb0q5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24vi4"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.03137255, 0.03137255, 0.039215688, 0.60784316)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.8607728, 0.57847786, 0.33093432, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="MainMenu" type="Control" unique_id=1035105764]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sl1te")
+
+[node name="Background" type="ColorRect" parent="." unique_id=294447148]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+
+[node name="SpriteBomj" type="Sprite2D" parent="Background" unique_id=778286877]
+modulate = Color(1, 1, 1, 0.25490198)
+position = Vector2(325.00003, 510)
+scale = Vector2(10, 10)
+texture = ExtResource("2_x2yvf")
+
+[node name="SpriteGrandmo" type="Sprite2D" parent="Background" unique_id=368760604]
+modulate = Color(1, 1, 1, 0.25490198)
+position = Vector2(1596, 516.00006)
+scale = Vector2(10, 10)
+texture = ExtResource("3_uhagc")
+
+[node name="SpriteBase" type="Sprite2D" parent="Background" unique_id=868722381]
+modulate = Color(1, 1, 1, 0.24705882)
+position = Vector2(949.99994, 171.99998)
+scale = Vector2(10, 10)
+texture = ExtResource("4_btxxm")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1481713256]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=836084796]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_24vi4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1231268808]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1386628952]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 56
+text = "PIVO DEFENSE"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1017318899]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7666196, 0.76661956, 0.76661956, 1)
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 16
+text = "бабушки выходят на тропу войны"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=513234317]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+text = "Играть"
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=853798712]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+text = "Настройки"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=105989821]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+text = "Выход"

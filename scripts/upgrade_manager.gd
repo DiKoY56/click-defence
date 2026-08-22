@@ -28,3 +28,5 @@ func buy_click_upgrade() -> bool:
 		return true
 	else: return false
 	
+func reset() -> void:
+	click_level = 0

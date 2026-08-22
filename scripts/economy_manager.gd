@@ -1,7 +1,8 @@
 extends Node
 
 signal gold_changed(new_amount: int)
-var gold: int = 25
+const START_GOLD: int = 25
+var gold: int = START_GOLD
 
 func add_gold(amount: int) -> void:
 	gold += amount
@@ -14,3 +15,7 @@ func try_spend(amount: int) -> bool:
 		return true	
 	else:
 		return false
+
+func reset() -> void:
+	gold = START_GOLD
+	gold_changed.emit(gold)

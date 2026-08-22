@@ -19,6 +19,9 @@ var enemies_spawned: int = 0
 var enemies_alive: int = 0
 var is_wave_active: bool = false
 var is_game_over: bool = false
+var total_kills: int = 0
+var run_start_ticks: int = 0
+var final_time_sec: int = 0
 
 @onready var wave_timer: Timer = $WaveTimer
 @onready var spawner: EnemySpawner
@@ -29,9 +32,11 @@ func setup(new_spawner: EnemySpawner, new_base: Base) -> void:
 	base = new_base
 	base.destroyed.connect(_on_base_destroyed)
 	spawner.enemy_died.connect(_on_enemy_died)
+	spawner.enemy_killed.connect(_on_enemy_killed)
 	
 func start_game() -> void:
 	current_wave = 0
+	run_start_ticks = Time.get_ticks_msec()
 	_start_next_wave()
 
 func _start_next_wave() -> void:
@@ -42,6 +47,7 @@ func _start_next_wave() -> void:
 	
 	if current_wave > TOTAL_WAVES:
 		is_game_over = true
+		final_time_sec = int((Time.get_ticks_msec() - run_start_ticks) / 1000.0)
 		game_won.emit()
 		return
 	
@@ -84,6 +90,7 @@ func _on_base_destroyed() -> void:
 	wave_timer.stop()
 	spawner.stop_spawning()
 	_clear_remaining_enemies()
+	final_time_sec = int((Time.get_ticks_msec() - run_start_ticks) / 1000.0)
 	game_lost.emit()
 
 func _clear_remaining_enemies() -> void:
@@ -92,3 +99,15 @@ func _clear_remaining_enemies() -> void:
 	
 func _ready() -> void:
 	wave_timer.timeout.connect(_on_wave_timer_timeout)
+
+func reset() -> void:
+	current_wave = 0
+	enemies_alive = 0
+	is_wave_active = false
+	is_game_over = false
+	total_kills = 0
+	wave_timer.stop()
+	final_time_sec = 0
+
+func _on_enemy_killed() -> void:
+	total_kills += 1

@@ -2,6 +2,7 @@ class_name EnemySpawner
 extends Node
 
 signal enemy_died
+signal enemy_killed
 
 @export var path: Path2D
 @export var base: Base
@@ -22,6 +23,7 @@ func spawn_enemy() -> void:
 	enemy.path = path
 	enemy.base = base
 	enemy.setup(pick_enemy_type())
+	enemy.killed.connect(_on_enemy_killed)
 	
 	if is_boss_wave and spawned == 0:
 		#первый враг на босс-волне это БОСС
@@ -74,3 +76,6 @@ func pick_enemy_type() -> EnemyData:
 
 func stop_spawning() -> void:
 	spawn_timer.stop()
+
+func _on_enemy_killed() -> void: 
+	enemy_killed.emit()

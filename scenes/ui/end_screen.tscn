@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bx22aobleahmx"]
+
+[ext_resource type="Script" uid="uid://da5el2wieyrvk" path="res://scripts/end_screen.gd" id="1_4ttpn"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="2_n8r4t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8r4t"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.03137255, 0.03137255, 0.039215688, 0.37254903)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.9393427, 0.6916887, 0.34147552, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="EndScreen" type="Control" unique_id=1928991291]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ttpn")
+
+[node name="Background" type="ColorRect" parent="." unique_id=383709170]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.60784316)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=686518204]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=464686005]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n8r4t")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=809407606]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=57728154]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_n8r4t")
+theme_override_font_sizes/font_size = 40
+text = "Титул"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=186451831]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_n8r4t")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1884504120]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_n8r4t")
+text = "Играть снова"

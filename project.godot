@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="ClickDefense"
-run/main_scene="uid://cvina7vggi34a"
+config/name="PivoDefense"
+run/main_scene="uid://bxbqwtg608c3r"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://jx2k4e847cbc"
 
 [autoload]
 

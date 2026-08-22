@@ -2,7 +2,7 @@ class_name Enemy
 extends Area2D
 
 signal died
-
+signal killed
 # --- Настройки (видны в инспекторе) ---
 @export var path: Path2D 
 @export var base:Base
@@ -106,6 +106,7 @@ func die() -> void:
 	EconomyManager.add_gold(gold_reward)
 	play_death_sound()
 	died.emit()
+	killed.emit()
 	queue_free()
 
 func play_death_sound() -> void:
