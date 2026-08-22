@@ -7,6 +7,7 @@ signal enemy_died
 @export var base: Base
 @export var enemy_count: int = 5
 @export var spawn_interval: float = 1.0
+@export var enemy_types: Array[EnemyData]
 
 @onready var spawn_timer: Timer = $SpawnTimer
 
@@ -20,6 +21,7 @@ func spawn_enemy() -> void:
 	var enemy: Enemy = EnemyScene.instantiate() as Enemy
 	enemy.path = path
 	enemy.base = base
+	enemy.setup(pick_enemy_type())
 	
 	if is_boss_wave and spawned == 0:
 		#первый враг на босс-волне это БОСС
@@ -54,3 +56,12 @@ func set_wave_config(count: int, boss_wave: bool) -> void:
 
 func _on_enemy_died() -> void:
 	enemy_died.emit()
+
+func pick_enemy_type() -> EnemyData:
+	var available: Array[EnemyData] = []
+	for t in enemy_types:
+		if t.unlock_wave <= WaveManager.current_wave:
+			available.append(t)
+	if available.is_empty():
+		return enemy_types[0]   # страховка
+	return available.pick_random()

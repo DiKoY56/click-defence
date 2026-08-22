@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bbtj44ob1jpsx" path="res://scripts/main.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bpdndditycebv" path="res://scenes/ui/hud.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://dq7ektrsoy53a" path="res://scripts/data/enemy_data.gd" id="4_o6xl0"]
 [ext_resource type="Script" uid="uid://f5h315wqjqjo" path="res://scripts/enemy_spawner.gd" id="5_tbgi4"]
+[ext_resource type="Resource" uid="uid://d256x2kmsq4l" path="res://assets/data/enemy_normal.tres" id="5_tipki"]
+[ext_resource type="Resource" uid="uid://cxphgaffvntr6" path="res://assets/data/enemy_fast.tres" id="6_85g3d"]
+[ext_resource type="Resource" uid="uid://c2kedh8xv1pfw" path="res://assets/data/enemy_tank.tres" id="7_choun"]
 
 [node name="Main" type="Node2D" unique_id=1852498328]
 script = ExtResource("1_sugp2")
@@ -13,6 +17,7 @@ script = ExtResource("1_sugp2")
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=1046232085]
 script = ExtResource("5_tbgi4")
+enemy_types = Array[ExtResource("4_o6xl0")]([ExtResource("5_tipki"), ExtResource("6_85g3d"), ExtResource("7_choun")])
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner" unique_id=1178747248]
 

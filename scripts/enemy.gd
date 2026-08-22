@@ -4,12 +4,13 @@ extends Area2D
 signal died
 
 # --- Настройки (видны в инспекторе) ---
-@export var max_health: int = 8
-@export var speed: float = 120.0
 @export var path: Path2D 
 @export var base:Base
-@export var damage_to_base: int = 5
-@export var gold_reward: int = 5
+
+var max_health: int = 8
+var speed: float = 120.0
+var damage_to_base: int = 5
+var gold_reward: int = 5
 
 const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
 const DeathSound: AudioStream = preload("res://assets/audio/death.wav")
@@ -132,3 +133,10 @@ func play_hit_sound(is_crit: bool = false) -> void:
 	player.finished.connect(player.queue_free)
 	player.play()
 	
+func setup(data: EnemyData) -> void:
+	max_health = data.max_health
+	speed = data.speed
+	gold_reward = data.gold_reward
+	damage_to_base = data.damage_to_base
+	$Sprite2D.scale *= data.visual_scale   # умножаем базовый масштаб сцены (3,3)
+	$Sprite2D.modulate = data.tint

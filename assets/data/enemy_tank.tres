@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://c2kedh8xv1pfw"]
+
+[ext_resource type="Script" uid="uid://dq7ektrsoy53a" path="res://scripts/data/enemy_data.gd" id="1_g2ylj"]
+
+[resource]
+script = ExtResource("1_g2ylj")
+max_health = 25
+speed = 70.0
+gold_reward = 12
+damage_to_base = 10
+unlock_wave = 6
+visual_scale = 1.3
+tint = Color(0.60922825, 0.2253994, 0.13303563, 1)
+metadata/_custom_type_script = "uid://dq7ektrsoy53a"
