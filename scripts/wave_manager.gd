@@ -18,6 +18,7 @@ var current_wave: int = 0
 var enemies_spawned: int = 0
 var enemies_alive: int = 0
 var is_wave_active: bool = false
+var is_game_over: bool = false
 
 @onready var wave_timer: Timer = $WaveTimer
 @onready var spawner: EnemySpawner
@@ -34,9 +35,13 @@ func start_game() -> void:
 	_start_next_wave()
 
 func _start_next_wave() -> void:
+	if is_game_over:
+		return
+		
 	current_wave += 1
 	
 	if current_wave > TOTAL_WAVES:
+		is_game_over = true
 		game_won.emit()
 		return
 	
@@ -46,6 +51,7 @@ func _start_next_wave() -> void:
 	if is_boss_wave:
 		boss_incoming.emit()
 		# На волне босса 1 босс + половина обычных врагов
+		@warning_ignore("integer_division")
 		enemy_count = 1 + (enemy_count / 2)
 	
 	enemies_spawned = 0
@@ -58,8 +64,8 @@ func _start_next_wave() -> void:
 	wave_started.emit(current_wave)
 
 func _on_enemy_died() -> void:
-	if not is_wave_active:
-		return
+	if is_game_over or not is_wave_active:
+		return 
 	
 	enemies_alive -=1
 	
@@ -72,7 +78,17 @@ func _on_wave_timer_timeout() -> void:
 	_start_next_wave()
 
 func _on_base_destroyed() -> void:
+	if is_game_over:
+		return
+	is_game_over = true
+	wave_timer.stop()
+	spawner.stop_spawning()
+	_clear_remaining_enemies()
 	game_lost.emit()
+
+func _clear_remaining_enemies() -> void:
+	for e in get_tree().get_nodes_in_group("enemies"):
+		e.queue_free()
 	
 func _ready() -> void:
 	wave_timer.timeout.connect(_on_wave_timer_timeout)

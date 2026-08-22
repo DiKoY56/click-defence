@@ -36,6 +36,9 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	
 func _on_spawn_timer() -> void:
+	if WaveManager.is_game_over:
+		return
+		
 	if spawned >= enemy_count:
 		spawn_timer.stop()
 		return
@@ -43,6 +46,9 @@ func _on_spawn_timer() -> void:
 	spawned += 1
 
 func _unhandled_input(event: InputEvent) -> void:
+	if WaveManager.is_game_over:
+		return
+		
 	if event is InputEventKey and event.pressed and event.keycode == KEY_E:
 		spawn_enemy()
 		
@@ -65,3 +71,6 @@ func pick_enemy_type() -> EnemyData:
 	if available.is_empty():
 		return enemy_types[0]   # страховка
 	return available.pick_random()
+
+func stop_spawning() -> void:
+	spawn_timer.stop()

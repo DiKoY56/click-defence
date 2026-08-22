@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_k6skf")
+type_name = "fast"
 max_health = 5
 speed = 200.0
 gold_reward = 4

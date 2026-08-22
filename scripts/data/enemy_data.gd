@@ -9,3 +9,4 @@ extends Resource
 @export var unlock_wave: int = 1
 @export var visual_scale: float = 1.0
 @export var tint: Color = Color.WHITE
+@export var texture: Texture2D

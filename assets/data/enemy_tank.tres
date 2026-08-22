@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_g2ylj")
+type_name = "tank"
 max_health = 25
 speed = 70.0
 gold_reward = 12
