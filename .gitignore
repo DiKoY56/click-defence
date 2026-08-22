@@ -2,3 +2,5 @@
 .godot/
 /android/
 project_context.txt
+# Build artifacts
+export/
