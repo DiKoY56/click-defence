@@ -83,3 +83,8 @@ func find_best_target():
 				best_progress = t.target_index
 				best = t
 	return best
+	
+func _process(delta: float) -> void:
+	if is_instance_valid(current_target):
+		var direction = current_target.global_position - global_position
+		sprite.flip_h = direction.x > 0  # true = отразить, если враг слева
