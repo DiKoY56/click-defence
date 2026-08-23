@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgpe62j7j4n26" path="res://scripts/main_menu.gd" id="1_sl1te"]
 [ext_resource type="Texture2D" uid="uid://0q3chu22hxh8" path="res://assets/art/enemy_bomj.png" id="2_x2yvf"]
 [ext_resource type="Texture2D" uid="uid://b0s2em13n3vco" path="res://assets/art/tower_attack_gr5.png" id="3_uhagc"]
-[ext_resource type="Texture2D" uid="uid://jx2k4e847cbc" path="res://assets/art/base.png" id="4_btxxm"]
+[ext_resource type="Texture2D" uid="uid://elxajlryfgcb" path="res://assets/art/base_pivo1.png" id="4_x2yvf"]
 [ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="5_wb0q5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24vi4"]
@@ -54,9 +54,9 @@ texture = ExtResource("3_uhagc")
 
 [node name="SpriteBase" type="Sprite2D" parent="Background" unique_id=868722381]
 modulate = Color(1, 1, 1, 0.24705882)
-position = Vector2(949.99994, 171.99998)
-scale = Vector2(10, 10)
-texture = ExtResource("4_btxxm")
+position = Vector2(964.00006, 207.00002)
+scale = Vector2(3, 3)
+texture = ExtResource("4_x2yvf")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1481713256]
 layout_mode = 1

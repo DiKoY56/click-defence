@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bpdndditycebv"]
 
 [ext_resource type="Script" uid="uid://dfoukfxsxnrf0" path="res://scripts/hud.gd" id="1_0mwgc"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="2_bo48s"]
 [ext_resource type="AudioStream" uid="uid://dapn0w1sq6gkt" path="res://assets/audio/buy.wav" id="2_hqnrr"]
 
 [node name="HUD" type="Control" unique_id=1231931579]
@@ -30,16 +31,18 @@ offset_left = 19.0
 offset_top = 56.0
 offset_right = 94.0
 offset_bottom = 79.0
+theme_override_fonts/font = ExtResource("2_bo48s")
 text = "Золото: 0"
 
 [node name="ClickUpgradeButton" type="Button" parent="." unique_id=609884320]
 modulate = Color(0, 1, 1, 1)
 layout_mode = 0
-offset_left = 156.0
-offset_top = 52.0
-offset_right = 314.0
-offset_bottom = 83.0
+offset_left = 333.0
+offset_top = 14.0
+offset_right = 491.0
+offset_bottom = 45.0
 mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_bo48s")
 text = "Улучшение"
 
 [node name="PurchaseSound" type="AudioStreamPlayer" parent="." unique_id=273849076]
@@ -51,9 +54,12 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -64.0
-offset_bottom = 23.0
+offset_left = -158.0
+offset_top = 20.0
+offset_right = -30.0
+offset_bottom = 43.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_bo48s")
 text = "Волна: -"
 
 [node name="NotificationLabel" type="Label" parent="." unique_id=1357908423]
@@ -66,6 +72,7 @@ offset_left = -34.5
 offset_right = 34.5
 offset_bottom = 45.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_bo48s")
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1

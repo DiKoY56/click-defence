@@ -13,7 +13,6 @@ config_version=5
 config/name="PivoDefense"
 run/main_scene="uid://bxbqwtg608c3r"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="uid://jx2k4e847cbc"
 
 [autoload]
 
