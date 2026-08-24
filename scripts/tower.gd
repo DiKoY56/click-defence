@@ -18,11 +18,15 @@ var current_target = null
 func _ready() -> void:
 	range_area.area_entered.connect(_on_entered)
 	range_area.area_exited.connect(_on_exited)
-	shoot_timer.wait_time = 1.0 / attack_speed
+	update_attack_speed()                                  
+	BuffManager.buff_applied.connect(update_attack_speed)  #стоящие башни тоже ускорятся
 	shoot_timer.timeout.connect(_on_shoot_timer)
 	sprite.frame_changed.connect(_on_frame_changed)
 	sprite.animation_finished.connect(_on_animation_finished)
 	
+func update_attack_speed() -> void:
+	shoot_timer.wait_time = 1.0 / (attack_speed * BuffManager.attack_speed_mult)
+		
 func _on_entered(area: Area2D) -> void:
 	if area.is_in_group("enemies"):
 		targets.append(area)
@@ -50,7 +54,7 @@ func shoot_projectile() -> void:
 		return
 	var projectile: Projectile = ProjectileScene.instantiate() as Projectile
 	projectile.target = current_target    # сначала ссылки
-	projectile.damage = damage      #  урон
+	projectile.damage = int(round(damage * BuffManager.tower_damage_mult))      #  урон
 	get_tree().current_scene.add_child(projectile)  # потом в дерево
 	projectile.global_position = global_position
 	shoot_sound.pitch_scale = randf_range(0.8, 1.1)

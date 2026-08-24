@@ -20,6 +20,7 @@ EconomyManager="*uid://82jkba0cgo6u"
 UpgradeManager="*uid://us6t8s2je654"
 WaveManager="*uid://carp2ou11f7n3"
 Settings="*uid://c4tqef4s8sr7x"
+BuffManager="*uid://caqbw4a0e6abl"
 
 [display]
 

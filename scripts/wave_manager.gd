@@ -9,7 +9,7 @@ signal game_lost
 const TOTAL_WAVES: int = 10
 const WAVE_PAUSE: float = 5.0 
 const BASE_ENEMY_COUNT: int = 5
-const ENEMY_GROWTH: float = 1.3
+const ENEMY_GROWTH: float = 1.4
 
 const BOSS_WAVES: Array[int] = [5, 10]
 const BOSS_HEALTH_MULTIPLIER: int = 10
@@ -71,14 +71,16 @@ func _start_next_wave() -> void:
 
 func _on_enemy_died() -> void:
 	if is_game_over or not is_wave_active:
-		return 
-	
+		return
 	enemies_alive -=1
-	
 	if enemies_alive <= 0:
 		is_wave_active = false
 		wave_completed.emit(current_wave)
-		wave_timer.start(WAVE_PAUSE)
+		# таймер стартует только через proceed_to_next_wave
+
+func proceed_to_next_wave() -> void:
+	wave_timer.start(WAVE_PAUSE)
+		
 
 func _on_wave_timer_timeout() -> void:
 	_start_next_wave()

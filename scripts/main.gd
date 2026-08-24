@@ -6,6 +6,7 @@ func _ready() -> void:
 	UpgradeManager.reset()
 	EconomyManager.reset()
 	WaveManager.reset()
+	BuffManager.reset() 
 	
 	var map_scene: PackedScene = MAPS.pick_random()
 	var map: Node2D = map_scene.instantiate()
@@ -16,10 +17,16 @@ func _ready() -> void:
 	
 	WaveManager.game_won.connect(_on_game_won)
 	WaveManager.game_lost.connect(_on_game_lost)
-	
+	WaveManager.wave_completed.connect(_on_wave_completed)
 	WaveManager.setup($EnemySpawner, map.base)  
-	WaveManager.start_game() 
-
+	WaveManager.start_game()
+	 
+func _on_wave_completed(wave_number: int) -> void:
+	if wave_number < WaveManager.TOTAL_WAVES:
+		$UI/BuffScreen.show_choices()
+	else:
+		WaveManager.proceed_to_next_wave()   # после 10й сразу к победе
+		
 func _on_game_won() -> void:
 	$UI/EndScreen.show_end(true, WaveManager.TOTAL_WAVES, WaveManager.total_kills, WaveManager.final_time_sec)
 

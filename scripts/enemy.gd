@@ -103,7 +103,7 @@ func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) ->
 		die()
 
 func die() -> void:
-	EconomyManager.add_gold(gold_reward)
+	EconomyManager.add_gold(int(round(gold_reward * BuffManager.gold_mult)))
 	play_death_sound()
 	died.emit()
 	killed.emit()

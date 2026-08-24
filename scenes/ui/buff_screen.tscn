@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bjmky3khu4t88"]
+
+[ext_resource type="Script" uid="uid://ds408bdv4116j" path="res://scripts/buff_screen.gd" id="1_ej4ob"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="2_a7h7i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24vi4"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.03, 0.03, 0.04, 0.9)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.94, 0.69, 0.34, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="BuffScreen" type="Control" unique_id=631140362]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ej4ob")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1415479161]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.54901963)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1723788816]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=788027563]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_24vi4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1321379191]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1353876848]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a7h7i")
+theme_override_font_sizes/font_size = 24
+text = "ВЫБЕРИ УСИЛЕНИЕ"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1985193994]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BuffButton1" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=221474513]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 180)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a7h7i")
+theme_override_font_sizes/font_size = 12
+
+[node name="BuffButton2" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=2139715088]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 180)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a7h7i")
+theme_override_font_sizes/font_size = 12
+
+[node name="BuffButton3" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=931533981]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 180)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a7h7i")
+theme_override_font_sizes/font_size = 12
