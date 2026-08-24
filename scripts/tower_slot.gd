@@ -2,7 +2,7 @@ extends Area2D
 
 @onready var build_sound: AudioStreamPlayer = $BuildSound
 
-const TOWER_COST: int = 25
+const TOWER_COST: int = 40
 
 var is_occupied: bool = false
 

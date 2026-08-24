@@ -1,7 +1,7 @@
 extends Node
 
 signal gold_changed(new_amount: int)
-const START_GOLD: int = 25
+const START_GOLD: int = 0
 var gold: int = START_GOLD
 
 func add_gold(amount: int) -> void:

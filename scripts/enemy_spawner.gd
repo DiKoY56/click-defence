@@ -23,6 +23,8 @@ func spawn_enemy() -> void:
 	enemy.path = path
 	enemy.base = base
 	enemy.setup(pick_enemy_type())
+	var hp_mult: float = 1.0 + (WaveManager.current_wave - 1) * 0.25
+	enemy.max_health = int(enemy.max_health * hp_mult)
 	enemy.killed.connect(_on_enemy_killed)
 	
 	if is_boss_wave and spawned == 0:

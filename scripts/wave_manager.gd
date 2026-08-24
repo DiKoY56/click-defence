@@ -9,7 +9,7 @@ signal game_lost
 const TOTAL_WAVES: int = 10
 const WAVE_PAUSE: float = 5.0 
 const BASE_ENEMY_COUNT: int = 5
-const ENEMY_GROWTH: float = 1.4
+const ENEMY_GROWTH: float = 1.3
 
 const BOSS_WAVES: Array[int] = [5, 10]
 const BOSS_HEALTH_MULTIPLIER: int = 10
