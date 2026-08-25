@@ -11,7 +11,7 @@ var gold_mult: float = 1.0
 
 # --- Пул баффов ---
 const BUFF_POOL: Array[Dictionary] = [
-	{"id": "click_damage", "name": "Крепче кулак", "desc": "+2 к урону клика"},
+	{"id": "click_damage", "name": "Крепче кулак", "desc": "+1 к урону клика"},
 	{"id": "crit", "name": "Злой прищур", "desc": "+10% к шансу крита"},
 	{"id": "tower_damage", "name": "Коты потолстели", "desc": "+15% к урону башен"},
 	{"id": "attack_speed", "name": "Бабушки выпили кофе", "desc": "+10% к скорости атаки башен"},
@@ -28,7 +28,7 @@ func get_random_buffs(count: int) -> Array[Dictionary]:
 func apply(buff: Dictionary) -> void:
 	match buff["id"]:
 		"click_damage":
-			click_damage_bonus += 2
+			click_damage_bonus += 1
 		"crit":
 			crit_chance_bonus += 0.10
 		"tower_damage":

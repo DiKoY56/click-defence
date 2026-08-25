@@ -1,12 +1,12 @@
 extends Node
 
 const BASE_COST: int = 10
-const COST_GROWTH: float = 1.6
+const COST_GROWTH: float = 1.9
 const DAMAGE_STEP: int = 1
 
 #CRIT
 const CRIT_CHANCE: float = 0.1
-const CRIT_MULTIPLIER: int = 3
+const CRIT_MULTIPLIER: int = 2
 
 var click_level: int = 0
 

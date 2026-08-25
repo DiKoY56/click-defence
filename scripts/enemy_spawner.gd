@@ -23,7 +23,7 @@ func spawn_enemy() -> void:
 	enemy.path = path
 	enemy.base = base
 	enemy.setup(pick_enemy_type())
-	var hp_mult: float = pow(1.13, WaveManager.current_wave - 1)
+	var hp_mult: float = pow(1.16, WaveManager.current_wave - 1)
 	enemy.max_health = int(enemy.max_health * hp_mult)
 	enemy.killed.connect(_on_enemy_killed)
 	
