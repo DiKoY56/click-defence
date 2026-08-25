@@ -4,7 +4,12 @@ extends Node2D
 var data: TowerData
 var damage: int = 5
 var attack_speed: float = 1.0
+var targets: Array = []
+var current_target = null
+
 @export var show_range: bool = true   # тумблер для отладки и будущего UX
+@export var shoot_animation: String = "shoot"  # у собаки будет "attack"
+@export var throw_frame: int = 6               # у собаки кадр лая
 
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var range_area: Area2D = $RangeArea
@@ -13,10 +18,6 @@ var attack_speed: float = 1.0
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 const ProjectileScene: PackedScene = preload("res://scenes/effects/projectile.tscn")
-const THROW_FRAME: int = 6  
-
-var targets: Array = []
-var current_target = null
 
 func _ready() -> void:
 	range_area.area_entered.connect(_on_entered)
@@ -38,12 +39,12 @@ func _on_exited(area: Area2D) -> void:
 	targets.erase(area)           # убрать из списка
 
 func _on_shoot_timer() -> void:
-	if sprite.animation == "shoot":
-		return  # Уже в замахе — ждём окончания
+	if sprite.animation == shoot_animation:
+		return  # Уже в замахе ждём окончания
 	var best = find_best_target()
 	if best != null:
 		current_target = best
-		sprite.play("shoot")
+		sprite.play(shoot_animation)
 
 func _draw() -> void:
 	if not show_range:
@@ -64,21 +65,38 @@ func shoot_projectile() -> void:
 	shoot_sound.play()
 
 func _on_frame_changed() -> void:
-	if sprite.animation == "shoot" and sprite.frame == THROW_FRAME:
+	if sprite.animation == shoot_animation and sprite.frame == throw_frame:
 		# Подмена цели, если текущая невалидна или вышла из радиуса
 		if not is_instance_valid(current_target) or current_target not in targets:
 			current_target = find_best_target()
-		
 		# Проверяем, есть ли цель
 		if is_instance_valid(current_target) and current_target in targets:
-			shoot_projectile()
+			attack_target()
 			# Выстрелили — ждём animation_finished для возврата в idle
 		else:
 			# Нет цели — сразу возвращаемся в idle
 			sprite.play("idle")
 
+func attack_target() -> void:
+	var dmg: int = int(round(damage * BuffManager.tower_damage_mult))
+	if data and data.slow_duration > 0.0 and data.projectile_scene == null:
+		# СОБАКА: лает эффект сразу на цели, снаряда нет
+		if dmg > 0:
+			current_target.take_damage(dmg)
+		current_target.apply_slow(data.slow_factor, data.slow_duration)
+	else:
+		# БАБУШКА (и будущие): снаряд
+		var scene: PackedScene = data.projectile_scene if data and data.projectile_scene else ProjectileScene
+		var projectile: Projectile = scene.instantiate() as Projectile
+		projectile.target = current_target
+		projectile.damage = dmg
+		get_tree().current_scene.add_child(projectile)
+		projectile.global_position = global_position
+	shoot_sound.pitch_scale = randf_range(0.8, 1.1)
+	shoot_sound.play()
+
 func _on_animation_finished() -> void:
-	if sprite.animation == "shoot":
+	if sprite.animation == shoot_animation:
 		sprite.play("idle")
 
 func find_best_target():
@@ -86,7 +104,7 @@ func find_best_target():
 	var best_progress: int = -1
 	for t in targets:
 		if is_instance_valid(t):
-			if t.target_index > best_progress:   # чем больше индекс, тем ближе к базе
+			if t.target_index > best_progress:
 				best_progress = t.target_index
 				best = t
 	return best

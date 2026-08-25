@@ -11,6 +11,9 @@ var max_health: int = 8
 var speed: float = 120.0
 var damage_to_base: int = 5
 var gold_reward: int = 5
+var slow_timer: float = 0.0
+var slow_factor: float = 1.0
+var base_tint: Color = Color.WHITE
 
 const text_scene: PackedScene = preload("res://scenes/effects/floating_text.tscn")
 const DeathSound: AudioStream = preload("res://assets/audio/death.wav")
@@ -51,13 +54,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if target_index < 1 or target_index >= points.size():
 		return  # путь не готов или уже пройден
-
+	if slow_timer > 0.0:
+		slow_timer -= delta
+		if slow_timer <= 0.0:
+			modulate = base_tint
+	var current_speed: float = speed * (slow_factor if slow_timer > 0.0 else 1.0)
 	var target: Vector2 = points[target_index]
-	var step: float = speed * delta              # сколько прошли за этот кадр
+	var step: float = current_speed * delta              # сколько прошли за этот кадр
 	var distance: float = global_position.distance_to(target)
-
 	if distance <= step:
-		# Дошли до точки — переключаемся на следующую
+		# Дошли до точки переключаемся на следующую
 		global_position = target
 		target_index += 1
 		if target_index >= points.size():
@@ -141,3 +147,11 @@ func setup(data: EnemyData) -> void:
 	damage_to_base = data.damage_to_base
 	$Sprite2D.scale *= data.visual_scale   # умножаем базовый масштаб сцены (3,3)
 	$Sprite2D.modulate = data.tint
+	base_tint = data.tint
+
+func apply_slow(factor: float, duration: float) -> void:
+	if slow_timer > 0.0 and slow_factor < factor:
+		return
+	slow_factor = factor
+	slow_timer = duration
+	modulate = Color(0.5, 0.7, 1.0)   # синий = замедлен

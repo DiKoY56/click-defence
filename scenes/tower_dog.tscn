@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://clrp0m0ika5n0"]
+
+[ext_resource type="Script" uid="uid://cudovw5lp2phe" path="res://scripts/tower.gd" id="1_un5lt"]
+[ext_resource type="AudioStream" uid="uid://clmrfs0txmhn4" path="res://assets/audio/shoot.wav" id="2_bon3p"]
+[ext_resource type="Texture2D" uid="uid://cqt1bx461obs8" path="res://assets/art/tower_dog_idle1.png" id="3_2ptoo"]
+[ext_resource type="Texture2D" uid="uid://b668shbdd5uvy" path="res://assets/art/tower_dog_idle2.png" id="4_j5h23"]
+[ext_resource type="Texture2D" uid="uid://pjk05feo6iwe" path="res://assets/art/tower_dog_idle3.png" id="5_iy1ex"]
+[ext_resource type="Texture2D" uid="uid://by0rq52xgj6tx" path="res://assets/art/tower_dog_idle4.png" id="6_pkd6o"]
+[ext_resource type="Texture2D" uid="uid://bumyvvu7qqup6" path="res://assets/art/tower_dog_idle5.png" id="7_xdwtt"]
+[ext_resource type="Texture2D" uid="uid://cj5wxqtsysfjr" path="res://assets/art/tower_dog_attack1.png" id="8_xcse8"]
+[ext_resource type="Texture2D" uid="uid://d0ol6t3i2p7ac" path="res://assets/art/tower_dog_attack2.png" id="9_wv5do"]
+[ext_resource type="Texture2D" uid="uid://morn18f8tjit" path="res://assets/art/tower_dog_attack3.png" id="10_shynk"]
+[ext_resource type="Texture2D" uid="uid://dbtulr4knk2ic" path="res://assets/art/tower_dog_attack4.png" id="11_581jn"]
+[ext_resource type="Texture2D" uid="uid://dqk2m75vh43ii" path="res://assets/art/tower_dog_attack5.png" id="12_4kvkg"]
+[ext_resource type="Texture2D" uid="uid://dffkdtpgm4cj8" path="res://assets/art/tower_dog_attack6.png" id="13_4axyq"]
+[ext_resource type="Texture2D" uid="uid://jg2bpp7vm7in" path="res://assets/art/tower_dog_attack7.png" id="14_m125c"]
+[ext_resource type="Texture2D" uid="uid://cldw7kv5dmj4x" path="res://assets/art/tower_dog_attack8.png" id="15_2nxrs"]
+[ext_resource type="Texture2D" uid="uid://ds30fk3p5m12f" path="res://assets/art/tower_dog_attack9.png" id="16_0m7sn"]
+[ext_resource type="Texture2D" uid="uid://do0i5ebjl3xk1" path="res://assets/art/tower_dog_attack10.png" id="17_55hrx"]
+[ext_resource type="Texture2D" uid="uid://dokly1fc0fxyv" path="res://assets/art/tower_dog_attack11.png" id="18_kwt4m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qrbg1"]
+radius = 220.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_24vi4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_xcse8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wv5do")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_shynk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_581jn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_4kvkg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_4axyq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_m125c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_2nxrs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_0m7sn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_55hrx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_kwt4m")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2ptoo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_j5h23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_iy1ex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_pkd6o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xdwtt")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="Tower" type="Node2D" unique_id=1971956930]
+script = ExtResource("1_un5lt")
+shoot_animation = "attack"
+throw_frame = 4
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1748941058]
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1154909637]
+shape = SubResource("CircleShape2D_qrbg1")
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=2094703131]
+autostart = true
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="." unique_id=1894323162]
+stream = ExtResource("2_bon3p")
+volume_db = -6.808
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=786090683]
+modulate = Color(0.6, 0.8, 1, 1)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_24vi4")
+animation = &"attack"
+autoplay = "idle"

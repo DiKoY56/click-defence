@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="TowerData" format=3 uid="uid://3gqf8xfoqkiw"]
 
 [ext_resource type="Script" uid="uid://dcukhsb8l1odq" path="res://scripts/data/tower_data.gd" id="1_ackfw"]
+[ext_resource type="PackedScene" uid="uid://blhra773wu2da" path="res://scenes/effects/projectile.tscn" id="1_bogd3"]
 [ext_resource type="PackedScene" uid="uid://drh4h524e8d2o" path="res://scenes/tower.tscn" id="2_c5jl0"]
 
 [resource]
 script = ExtResource("1_ackfw")
+display_name = "Бабушка"
 tower_scene = ExtResource("2_c5jl0")
+projectile_scene = ExtResource("1_bogd3")
 metadata/_custom_type_script = "uid://dcukhsb8l1odq"
