@@ -1,6 +1,9 @@
+class_name Tower
 extends Node2D
-@export var damage: int = 5
-@export var attack_speed: float = 1.0
+
+var data: TowerData
+var damage: int = 5
+var attack_speed: float = 1.0
 @export var show_range: bool = true   # тумблер для отладки и будущего UX
 
 @onready var shoot_timer: Timer = $ShootTimer
@@ -92,3 +95,11 @@ func _process(delta: float) -> void:
 	if is_instance_valid(current_target):
 		var direction = current_target.global_position - global_position
 		sprite.flip_h = direction.x > 0  # true = отразить, если враг слева
+
+func setup(d: TowerData) -> void:
+	data = d
+	damage = d.damage
+	attack_speed = d.attack_speed
+	range_shape.radius = d.range_radius
+	queue_redraw()          # перерисовать круг радиуса 
+	update_attack_speed()

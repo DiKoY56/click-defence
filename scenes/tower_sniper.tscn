@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://qsmb05fk6gke"]
+
+[ext_resource type="Script" uid="uid://cudovw5lp2phe" path="res://scripts/tower.gd" id="1_uqrxk"]
+[ext_resource type="AudioStream" uid="uid://dr1adx5iim24d" path="res://assets/audio/cat_projectile1.wav" id="2_0frhp"]
+[ext_resource type="Texture2D" uid="uid://buh2ln8bimsln" path="res://assets/art/tower_grandma_idle_01.png" id="3_5j0wf"]
+[ext_resource type="Texture2D" uid="uid://ix8t7s54nuwt" path="res://assets/art/tower_grandma_idle_02.png" id="4_fij5u"]
+[ext_resource type="Texture2D" uid="uid://c6nd2rexgleop" path="res://assets/art/tower_grandma_idle_03.png" id="5_f8ytw"]
+[ext_resource type="Texture2D" uid="uid://ch1nwth2kapcl" path="res://assets/art/tower_grandma_idle_04.png" id="6_cye32"]
+[ext_resource type="Texture2D" uid="uid://bripsh7gkggjm" path="res://assets/art/tower_attack_gr1.png" id="7_r6ugf"]
+[ext_resource type="Texture2D" uid="uid://dbwie01g7vbj2" path="res://assets/art/tower_attack_gr2.png" id="8_mdn54"]
+[ext_resource type="Texture2D" uid="uid://38kevhgixk8f" path="res://assets/art/tower_attack_gr3.png" id="9_0np1i"]
+[ext_resource type="Texture2D" uid="uid://nx32sf5pnf8s" path="res://assets/art/tower_attack_gr4.png" id="10_rlvot"]
+[ext_resource type="Texture2D" uid="uid://b0s2em13n3vco" path="res://assets/art/tower_attack_gr5.png" id="11_yi6u8"]
+[ext_resource type="Texture2D" uid="uid://desrbup18c00f" path="res://assets/art/tower_attack_gr6.png" id="12_bs0l8"]
+[ext_resource type="Texture2D" uid="uid://dqvigirbwmwke" path="res://assets/art/tower_attack_gr7.png" id="13_ofrkn"]
+[ext_resource type="Texture2D" uid="uid://cpo6nj4nsy8qt" path="res://assets/art/tower_attack_gr8.png" id="14_asnea"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qrbg1"]
+radius = 241.4
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_24vi4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_5j0wf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fij5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_f8ytw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cye32")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_r6ugf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mdn54")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0np1i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_rlvot")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yi6u8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_bs0l8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ofrkn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_asnea")
+}],
+"loop": 0,
+"name": &"shoot",
+"speed": 10.0
+}]
+
+[node name="Tower" type="Node2D" unique_id=1971956930]
+script = ExtResource("1_uqrxk")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1748941058]
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1154909637]
+shape = SubResource("CircleShape2D_qrbg1")
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=2094703131]
+autostart = true
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="." unique_id=1894323162]
+stream = ExtResource("2_0frhp")
+volume_db = -6.808
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=786090683]
+modulate = Color(0.6, 0.8, 1, 1)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_24vi4")
+animation = &"shoot"
+autoplay = "idle"

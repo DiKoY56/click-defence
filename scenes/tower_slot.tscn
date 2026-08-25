@@ -2,13 +2,17 @@
 
 [ext_resource type="Script" uid="uid://6yoicbwr7fno" path="res://scripts/tower_slot.gd" id="1_lrx4m"]
 [ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="2_oijv1"]
+[ext_resource type="Resource" uid="uid://3gqf8xfoqkiw" path="res://assets/data/tower_grandma.tres" id="2_tvd1h"]
 [ext_resource type="AudioStream" uid="uid://buq57oj5wiydf" path="res://assets/audio/coin.wav" id="3_e0xc3"]
+[ext_resource type="Resource" uid="uid://b25ac36fdim8e" path="res://assets/data/tower_sniper.tres" id="3_p3usg"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="4_qxftq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
 size = Vector2(128, 129)
 
 [node name="TowerSlot" type="Area2D" unique_id=1869862045]
 script = ExtResource("1_lrx4m")
+tower_types = Array[Object]([ExtResource("2_tvd1h"), ExtResource("3_p3usg")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=547713978]
 modulate = Color(18.892157, 18.892157, 18.892157, 0.07450981)
@@ -21,3 +25,27 @@ shape = SubResource("RectangleShape2D_tefeu")
 [node name="BuildSound" type="AudioStreamPlayer" parent="." unique_id=797927569]
 stream = ExtResource("3_e0xc3")
 volume_db = -6.19
+
+[node name="BuildMenu" type="PanelContainer" parent="." unique_id=735493276]
+visible = false
+offset_top = -140.0
+offset_right = 40.0
+offset_bottom = -100.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenu" unique_id=576317534]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BuildButton1" type="Button" parent="BuildMenu/VBoxContainer" unique_id=997958004]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_qxftq")
+theme_override_font_sizes/font_size = 10
+
+[node name="BuildButton2" type="Button" parent="BuildMenu/VBoxContainer" unique_id=1074062016]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_qxftq")
+theme_override_font_sizes/font_size = 10

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TowerData" format=3 uid="uid://b25ac36fdim8e"]
+
+[ext_resource type="Script" uid="uid://dcukhsb8l1odq" path="res://scripts/data/tower_data.gd" id="1_b3bcq"]
+[ext_resource type="PackedScene" uid="uid://qsmb05fk6gke" path="res://scenes/tower_sniper.tscn" id="2_4wvuu"]
+
+[resource]
+script = ExtResource("1_b3bcq")
+display_name = "Финский снайпер"
+description = "Бьёт далеко и больно, но медленно"
+damage = 15
+attack_speed = 0.5
+range_radius = 400.0
+cost = 80
+tower_scene = ExtResource("2_4wvuu")
+metadata/_custom_type_script = "uid://dcukhsb8l1odq"
