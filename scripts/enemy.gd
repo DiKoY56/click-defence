@@ -84,6 +84,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		and event.button_index == MOUSE_BUTTON_LEFT \
 		and event.pressed:
 		get_viewport().set_input_as_handled()
+		_close_build_menus()                    # ← клик по врагу тоже закрывает меню
 		var damage := UpgradeManager.get_click_damage()
 		var color: Color = Color.WHITE
 		var is_critical: bool = UpgradeManager.is_crit()
@@ -92,6 +93,10 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 			color = Color.RED
 		take_damage(damage, color, is_critical)
 		play_hit_sound(is_critical)
+
+func _close_build_menus() -> void:
+	for slot in get_tree().get_nodes_in_group("tower_slots"):
+		slot.close_menu()
 
 func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) -> void:
 	if health <= 0:
