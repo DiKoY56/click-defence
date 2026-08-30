@@ -12,4 +12,6 @@ cost = 60
 slow_factor = 0.5
 slow_duration = 2.0
 tower_scene = ExtResource("2_l5du3")
+upgrade_costs = Array[int]([45, 100])
+speed_mult_per_level = Array[float]([1.0, 1.1, 1.2])
 metadata/_custom_type_script = "uid://dcukhsb8l1odq"

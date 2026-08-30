@@ -13,4 +13,7 @@ range_radius = 400.0
 cost = 80
 tower_scene = ExtResource("2_4wvuu")
 projectile_scene = ExtResource("1_22fa1")
+upgrade_costs = Array[int]([60, 140])
+power_mult_per_level = Array[float]([1.0, 1.6, 2.4])
+speed_mult_per_level = Array[float]([1.0, 1.15, 1.3])
 metadata/_custom_type_script = "uid://dcukhsb8l1odq"

@@ -97,6 +97,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _close_build_menus() -> void:
 	for slot in get_tree().get_nodes_in_group("tower_slots"):
 		slot.close_menu()
+	for t in get_tree().get_nodes_in_group("towers"): 
+		t.close_menu()
 
 func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) -> void:
 	if health <= 0:

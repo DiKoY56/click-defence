@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://6yoicbwr7fno" path="res://scripts/tower_slot.gd" id="1_lrx4m"]
 [ext_resource type="Texture2D" uid="uid://cw5l80mopf35d" path="res://icon.svg" id="2_oijv1"]
+[ext_resource type="Script" uid="uid://dcukhsb8l1odq" path="res://scripts/data/tower_data.gd" id="2_p3usg"]
 [ext_resource type="Resource" uid="uid://3gqf8xfoqkiw" path="res://assets/data/tower_grandma.tres" id="2_tvd1h"]
 [ext_resource type="AudioStream" uid="uid://buq57oj5wiydf" path="res://assets/audio/coin.wav" id="3_e0xc3"]
 [ext_resource type="Resource" uid="uid://b25ac36fdim8e" path="res://assets/data/tower_sniper.tres" id="3_p3usg"]
@@ -12,7 +13,7 @@ size = Vector2(128, 129)
 
 [node name="TowerSlot" type="Area2D" unique_id=1869862045]
 script = ExtResource("1_lrx4m")
-tower_types = Array[Object]([ExtResource("2_tvd1h"), ExtResource("3_p3usg"), ExtResource("4_p3usg")])
+tower_types = Array[ExtResource("2_p3usg")]([ExtResource("2_tvd1h"), ExtResource("3_p3usg"), ExtResource("4_p3usg")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=547713978]
 modulate = Color(18.892157, 18.892157, 18.892157, 0.07450981)

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dn7jtmp8i73gc"]
+
+[ext_resource type="Script" uid="uid://caiy1bfeg1p02" path="res://scripts/tower_menu.gd" id="1_atwrq"]
+[ext_resource type="FontFile" uid="uid://cwd1te2q8iob8" path="res://assets/fonts/PressStart2P-Regular.ttf" id="2_41ggj"]
+
+[node name="TowerMenu" type="PanelContainer" unique_id=485596512]
+z_index = 100
+script = ExtResource("1_atwrq")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=2083804408]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="VBox" unique_id=1680917143]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_41ggj")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="UpgradeButton" type="Button" parent="VBox" unique_id=258954577]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_41ggj")
+theme_override_font_sizes/font_size = 10
+
+[node name="SellButton" type="Button" parent="VBox" unique_id=1473399050]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_41ggj")
+theme_override_font_sizes/font_size = 10

@@ -1,3 +1,4 @@
+class_name TowerSlot
 extends Area2D
 
 @export var tower_types: Array[TowerData]
@@ -8,6 +9,7 @@ extends Area2D
 
 const UI_FONT: Font = preload("res://assets/fonts/PressStart2P-Regular.ttf")
 
+var built_tower: Tower = null
 var is_occupied: bool = false
 var menu_buttons: Array[Button] = []
 
@@ -73,6 +75,8 @@ func _on_build(index: int) -> void:
 	get_parent().add_child(tower)
 	tower.global_position = global_position
 	tower.setup(d)
+	tower.home_slot = self
+	built_tower = tower
 	is_occupied = true
 	input_pickable = false
 	$Sprite2D.visible = false
@@ -82,7 +86,9 @@ func _on_build(index: int) -> void:
 func open_menu() -> void:
 	for slot in get_tree().get_nodes_in_group("tower_slots"):
 		if slot != self:
-			slot.close_menu()   # одновременно открыто только одно меню
+			slot.close_menu()
+	for t in get_tree().get_nodes_in_group("towers"):   
+		t.close_menu()
 	build_menu.visible = true
 	refresh_buttons()
 
@@ -95,3 +101,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		and event.pressed \
 		and build_menu.visible:
 		close_menu()
+
+func free_slot() -> void:          # вызывается при продаже
+	is_occupied = false
+	input_pickable = true
+	$Sprite2D.visible = true
+	built_tower = null
