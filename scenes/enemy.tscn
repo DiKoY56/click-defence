@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://0q3chu22hxh8" path="res://assets/art/enemy_bomj.png" id="2_md0e3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24vi4"]
-size = Vector2(66, 114)
+size = Vector2(76, 121)
 
 [node name="Enemy" type="Area2D" unique_id=1331134306]
 script = ExtResource("1_md0e3")
@@ -14,5 +14,5 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1978825274]
-position = Vector2(-4, 5)
+position = Vector2(-2, 4.5)
 shape = SubResource("RectangleShape2D_24vi4")
