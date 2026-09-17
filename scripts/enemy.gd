@@ -111,7 +111,6 @@ func take_damage(amount: int, color: Color = Color.WHITE, crit: bool = false) ->
 	text_damage.setup(str_amount, color, crit)
 	text_damage.global_position = global_position + Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	
-	print("Попадание! Осталось HP: ", health)
 	if health <= 0:
 		die()
 

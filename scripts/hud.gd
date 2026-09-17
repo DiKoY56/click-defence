@@ -11,11 +11,8 @@ var base: Base
 
 func _ready() -> void:
 	EconomyManager.gold_changed.connect(_on_gold_changed)
-	#base.health_changed.connect(_on_base_health_changed)
 	upgrade_button.pressed.connect(_on_click_upgrade_pressed)
-	#health_bar.max_value = base.max_health
 	_on_gold_changed(EconomyManager.gold)
-	#_on_base_health_changed(base.health)
 	refresh_shop()
 	
 func _on_gold_changed(new_amount: int) -> void:
