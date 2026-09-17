@@ -50,6 +50,9 @@ func _on_spawn_timer() -> void:
 	spawned += 1
 
 func _unhandled_input(event: InputEvent) -> void:
+	if OS.is_debug_build():     # в релиз экспорте = false
+		return
+		
 	if WaveManager.is_game_over:
 		return
 		
