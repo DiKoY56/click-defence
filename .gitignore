@@ -4,3 +4,4 @@
 project_context.txt
 # Build artifacts
 export/
+export_project.py
