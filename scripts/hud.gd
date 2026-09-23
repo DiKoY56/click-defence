@@ -30,8 +30,6 @@ func _on_click_upgrade_pressed() -> void:
 	if UpgradeManager.buy_click_upgrade() == true:
 		purchase_sound.play()
 		refresh_shop()
-	else:
-		print("денег нет!")
 
 func setup(new_base: Base) -> void:
 	base = new_base

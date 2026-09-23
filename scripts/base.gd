@@ -21,7 +21,6 @@ func take_damage(amount: int) -> void:
 	health = max(health - amount , 0)
 	play_damage_sound()
 	play_hit_reaction()
-	print("HP базы: ", health)
 	health_changed.emit(health)
 	if health <= 0:
 		die()
