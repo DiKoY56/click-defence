@@ -67,6 +67,13 @@ theme_override_fonts/font = ExtResource("2_n8r4t")
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 
+[node name="RecordLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=308838447]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_n8r4t")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
 [node name="RestartButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1884504120]
 custom_minimum_size = Vector2(280, 64)
 layout_mode = 2

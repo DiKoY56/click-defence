@@ -28,7 +28,9 @@ func _on_wave_completed(wave_number: int) -> void:
 		WaveManager.proceed_to_next_wave()   # после 10й сразу к победе
 		
 func _on_game_won() -> void:
-	$UI/EndScreen.show_end(true, WaveManager.TOTAL_WAVES, WaveManager.total_kills, WaveManager.final_time_sec)
+	var new_record := SaveManager.submit_run(WaveManager.TOTAL_WAVES, WaveManager.total_kills, true)
+	$UI/EndScreen.show_end(true, WaveManager.TOTAL_WAVES, WaveManager.total_kills, WaveManager.final_time_sec, new_record)
 
 func _on_game_lost() -> void:
-	$UI/EndScreen.show_end(false, WaveManager.current_wave, WaveManager.total_kills, WaveManager.final_time_sec)
+	var new_record := SaveManager.submit_run(WaveManager.current_wave, WaveManager.total_kills, false)
+	$UI/EndScreen.show_end(false, WaveManager.current_wave, WaveManager.total_kills, WaveManager.final_time_sec, new_record)

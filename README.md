@@ -18,6 +18,8 @@
 
 \## Как запустить
 
+0\. Без Godot: скачать архив в [Releases] -> распаковать -> PivoDefense.exe
+
 1\. Установить Godot 4.7.
 
 2\. Открыть `project.godot`.

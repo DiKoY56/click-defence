@@ -22,6 +22,22 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0skq4"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.03, 0.03, 0.04, 0.95)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.94, 0.69, 0.34, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="MainMenu" type="Control" unique_id=1035105764]
 layout_mode = 3
 anchors_preset = 15
@@ -89,6 +105,14 @@ theme_override_font_sizes/font_size = 16
 text = "бабушки выходят на тропу войны"
 horizontal_alignment = 1
 
+[node name="RecordLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1868509059]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7647059, 0.7647059, 0.7647059, 1)
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
 [node name="PlayButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=513234317]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 64)
@@ -112,3 +136,68 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("5_wb0q5")
 text = "Выход"
+
+[node name="SettingsCenter" type="Control" parent="." unique_id=242116496]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="SettingsCenter" unique_id=1652047116]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Center" type="CenterContainer" parent="SettingsCenter" unique_id=495687384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsPanel" type="PanelContainer" parent="SettingsCenter/Center" unique_id=830486091]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0skq4")
+
+[node name="VBox" type="VBoxContainer" parent="SettingsCenter/Center/SettingsPanel" unique_id=353804914]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SettingsTitle" type="Label" parent="SettingsCenter/Center/SettingsPanel/VBox" unique_id=1205746781]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 32
+text = "НАСТРОЙКИ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FullscreenCheck" type="CheckButton" parent="SettingsCenter/Center/SettingsPanel/VBox" unique_id=327024520]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 16
+text = "Полный экран"
+
+[node name="VolumeSlider" type="HSlider" parent="SettingsCenter/Center/SettingsPanel/VBox" unique_id=1494808424]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 32)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+
+[node name="BackButton" type="Button" parent="SettingsCenter/Center/SettingsPanel/VBox" unique_id=672059484]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_wb0q5")
+theme_override_font_sizes/font_size = 16
+text = "Назад"
