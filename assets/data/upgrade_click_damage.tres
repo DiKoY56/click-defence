@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" format=3 uid="uid://c4yiawrebswaq"]
+
+[ext_resource type="Script" uid="uid://qjdkbcpv8wa" path="res://scripts/data/meta_upgrade_data.gd" id="1_0b57s"]
+
+[resource]
+script = ExtResource("1_0b57s")
+id = "click_damage"
+display_name = "Сильные руки"
+description = "+1 к базовому урону клика"
+max_level = 10
+base_cost = 80
+cost_growth = 2.0
+effect_type = 1
+metadata/_custom_type_script = "uid://qjdkbcpv8wa"

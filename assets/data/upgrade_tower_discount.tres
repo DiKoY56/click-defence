@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" format=3 uid="uid://b7pq1vx35xxwh"]
+
+[ext_resource type="Script" uid="uid://qjdkbcpv8wa" path="res://scripts/data/meta_upgrade_data.gd" id="1_1cklc"]
+
+[resource]
+script = ExtResource("1_1cklc")
+id = "tower_discount"
+display_name = "Скидка от бабки"
+description = "-5% к стоимости всех башен"
+max_level = 6
+base_cost = 150
+cost_growth = 2.2
+effect_type = 3
+effect_value_per_level = 5.0
+metadata/_custom_type_script = "uid://qjdkbcpv8wa"

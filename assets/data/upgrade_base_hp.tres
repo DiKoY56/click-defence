@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" format=3 uid="uid://jykcgdrawxar"]
+
+[ext_resource type="Script" uid="uid://qjdkbcpv8wa" path="res://scripts/data/meta_upgrade_data.gd" id="1_q637o"]
+
+[resource]
+script = ExtResource("1_q637o")
+id = "base_hp"
+display_name = "Укреплённый ларёк"
+description = "+5 к макс. HP базы"
+max_level = 8
+base_cost = 100
+cost_growth = 1.9
+effect_type = 2
+effect_value_per_level = 5.0
+metadata/_custom_type_script = "uid://qjdkbcpv8wa"

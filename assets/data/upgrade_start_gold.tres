@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" format=3 uid="uid://4h55naqo6rpt"]
+
+[ext_resource type="Script" uid="uid://qjdkbcpv8wa" path="res://scripts/data/meta_upgrade_data.gd" id="1_n4f7p"]
+
+[resource]
+script = ExtResource("1_n4f7p")
+id = "start_gold"
+display_name = "Начальный капитал"
+description = "+20 золота в начале забега"
+effect_value_per_level = 20.0
+metadata/_custom_type_script = "uid://qjdkbcpv8wa"

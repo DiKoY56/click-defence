@@ -22,14 +22,67 @@ var prestige_points: int = 0
 
 func _ready() -> void:
 	load_game()
+	_load_meta_upgrades()
+	_apply_meta_bonuses()  # применяем бонусы при старте
 	if not OS.has_feature("editor"):
-		_apply_window_mode()   # старт экспорта — по сейву; редактор остаётся оконным
+		_apply_window_mode()   # старт экспорта по сейву; редактор остаётся оконным
 	_apply_volume()
+func _load_meta_upgrades() -> void:
+	meta_upgrades.clear()
+	var dir := DirAccess.open(META_UPGRADES_PATH)
+	if dir == null:
+		push_error("Не удалось открыть папку с апгрейдами!")
+		return
+	for file in dir.get_files():
+		if file.begins_with("upgrade_") and file.ends_with(".tres"):
+			var res = load(META_UPGRADES_PATH.path_join(file)) as MetaUpgradeData
+			if res:
+				meta_upgrades.append(res)
 
+func _load_game_meta() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SAVE_PATH) != OK:
+		return
+	if cfg.has_section("meta"):
+		for key in cfg.get_section_keys("meta"):
+			purchased_levels[key] = cfg.get_value("meta", key, 0)
+
+func _save_game_meta() -> void:
+	var cfg := ConfigFile.new()
+	# загружаем существующие данные
+	cfg.load(SAVE_PATH)
+	# сохраняем мета-апгрейды
+	for id in purchased_levels:
+		cfg.set_value("meta", id, purchased_levels[id])
+	cfg.save(SAVE_PATH)
+
+func get_upgrade_level(upgrade: MetaUpgradeData) -> int:
+	return purchased_levels.get(upgrade.id, 0)
+
+func can_buy_upgrade(upgrade: MetaUpgradeData) -> bool:
+	var level := get_upgrade_level(upgrade)
+	if level >= upgrade.max_level:
+		return false
+	return prestige_points >= upgrade.get_cost(level)
+
+func buy_upgrade(upgrade: MetaUpgradeData) -> bool:
+	if not can_buy_upgrade(upgrade):
+		return false
+	var level := get_upgrade_level(upgrade)
+	prestige_points -= upgrade.get_cost(level)
+	purchased_levels[upgrade.id] = level + 1
+	_save_game_meta()
+	_apply_meta_bonuses()
+	return true
+
+func _apply_meta_bonuses() -> void:
+	# Здесь применять бонусы к глобальным системам
+	pass
+	
 func load_game() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) != OK:
-		return   # первого сейва ещё нет — живём с дефолтами
+		return   
 	fullscreen = cfg.get_value("settings", "fullscreen", fullscreen)
 	volume = cfg.get_value("settings", "volume", volume)
 	best_wave = cfg.get_value("stats", "best_wave", best_wave)
@@ -37,7 +90,8 @@ func load_game() -> void:
 	runs = cfg.get_value("stats", "runs", runs)
 	wins = cfg.get_value("stats", "wins", wins)
 	prestige_points = cfg.get_value("stats", "prestige_points", prestige_points)
-
+	_load_game_meta() 
+	
 func save_game() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("settings", "fullscreen", fullscreen)
@@ -47,6 +101,9 @@ func save_game() -> void:
 	cfg.set_value("stats", "runs", runs)
 	cfg.set_value("stats", "wins", wins)
 	cfg.set_value("stats", "prestige_points", prestige_points)
+	# сохраняем мета-апгрейды
+	for id in purchased_levels:
+		cfg.set_value("meta", id, purchased_levels[id])
 	cfg.save(SAVE_PATH)
 
 # --- применение настроек ---
@@ -76,6 +133,10 @@ func _run_points(wave: int, kills: int, won: bool) -> int:
 	if won:
 		points += WIN_BONUS
 	return points
+# --- мета-апгрейды ---
+const META_UPGRADES_PATH := "res://assets/data/"
+var meta_upgrades: Array[MetaUpgradeData] = []
+var purchased_levels: Dictionary = {}  # {id: level}
 
 func submit_run(wave: int, kills: int, won: bool) -> bool:   # вернёт true, если новый рекорд
 	runs += 1
