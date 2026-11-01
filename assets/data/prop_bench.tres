@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PropData" format=3 uid="uid://cduca1yioxi0e"]
+
+[ext_resource type="Script" uid="uid://cl6kvrwm4mkxt" path="res://scripts/data/prop_data.gd" id="1_dvp7c"]
+[ext_resource type="Texture2D" uid="uid://dayga1kl1hnle" path="res://assets/art/props/bench_defoult.png" id="2_ltaj2"]
+
+[resource]
+script = ExtResource("1_dvp7c")
+id = &"bench"
+role = &"bench"
+texture = ExtResource("2_ltaj2")
+weight = 2.0
+clearance_radius = 56.0
+placeholder_color = Color(0.34, 0.24, 0.15, 1)
+metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PropData" format=3 uid="uid://dp8el3oirle2e"]
+
+[ext_resource type="Script" uid="uid://cl6kvrwm4mkxt" path="res://scripts/data/prop_data.gd" id="1_wfl1x"]
+[ext_resource type="Texture2D" uid="uid://cs00ngau0qc25" path="res://assets/art/props/Lamppost.png" id="2_uvpil"]
+
+[resource]
+script = ExtResource("1_wfl1x")
+id = &"lamp"
+role = &"lamp"
+texture = ExtResource("2_uvpil")
+weight = 2.0
+clearance_radius = 26.0
+placeholder_color = Color(0.55, 0.45, 0.2, 1)
+metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"

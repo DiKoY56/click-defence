@@ -3,15 +3,21 @@ extends Node2D
 # Собирает карту из MapLayout в рантайме, повторяя структуру ваших .tscn-карт.
 # Наружу отдаёт enemy_path / base в том же виде, что и map.gd — поэтому main.gd
 # работает с собранной картой без изменений (duck-typing по полям).
+# Декор (земля + пропсы) включается, если передан rng; без него — чистая геометрия
+# (старые тесты Фаз A/C вызывают build(layout) и поведения не меняют).
 
 const BaseScene: PackedScene = preload("res://scenes/base.tscn")
-const BaseScript: Script = preload("res://scripts/base.gd")   # ← скрипт базы
+const BaseScript: Script = preload("res://scripts/base.gd")
 const TowerSlotScene: PackedScene = preload("res://scenes/tower_slot.tscn")
+
+const GROUND_Z := -20
+const PROP_Z := -10
 
 var enemy_path: Path2D = null
 var base: Base = null
+var ground: Ground = null
 
-func build(layout: MapLayout) -> void:
+func build(layout: MapLayout, rng: RandomNumberGenerator = null) -> void:
 	# --- путь врагов ---
 	enemy_path = Path2D.new()
 	enemy_path.name = "EnemyPath"
@@ -21,10 +27,7 @@ func build(layout: MapLayout) -> void:
 	enemy_path.curve = curve
 	add_child(enemy_path)
 
-	# --- база ---
-	# В base.tscn скрипт base.gd НЕ зашит в корень: карты навешивают его на инстанс
-	# в инспекторе. При программной сборке назначаем скрипт явно, ДО add_child,
-	# иначе _ready отработает без Base-логики (health, сигналы, @onready sprite).
+	# --- база (скрипт назначаем явно: в base.tscn его нет в корне) ---
 	var base_node := BaseScene.instantiate()
 	base_node.set_script(BaseScript)
 	base_node.position = layout.base_position
@@ -39,3 +42,18 @@ func build(layout: MapLayout) -> void:
 		slot.name = "TowerSlot%d" % (i + 1)
 		slot.position = layout.tower_slot_positions[i]
 		add_child(slot)
+
+	# --- декор (только если передан rng) ---
+	if rng != null:
+		_build_decor(layout, rng)
+
+func _build_decor(layout: MapLayout, rng: RandomNumberGenerator) -> void:
+	ground = Ground.new()
+	ground.name = "Ground"
+	ground.z_index = GROUND_Z
+	add_child(ground)
+
+	var props := PropGenerator.generate_props(layout, rng)
+	for p in props:
+		p.z_index = PROP_Z
+		add_child(p)

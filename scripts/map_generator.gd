@@ -19,15 +19,16 @@ const POINTS_MAX := 8
 # --- слоты ---
 const SLOT_COUNT_MIN := 5
 const SLOT_COUNT_MAX := 7
-const SLOT_HALF := 64.0          # полуширина спрайта слота (для AABB-зазора)
-const SLOT_GAP := 28.0           # мин. зазор МЕЖДУ КРАЯМИ слотов (не центрами!)
+const SLOT_HALF := 64.0
+const SLOT_GAP := 28.0
 const BASE_CLEAR := 120.0
 const NEAR_MIN := 120.0
 const NEAR_MAX := 220.0
 const FAR_MIN := 260.0
 const FAR_MAX := 380.0
 const FAR_PROB := 0.4
-const TRIES_PER_SLOT := 18       # ↑ с 14: строгий AABB-предикат отсеивает больше
+const TRIES_PER_SLOT := 18
+const GUARANTEE_TRIES := 30       # бюджет ретраев на принудительный far
 const PATH_T_LO := 0.12
 const PATH_T_HI := 0.88
 
@@ -72,6 +73,7 @@ static func generate_slots(layout: MapLayout, rng: RandomNumberGenerator) -> Pac
 		lo = 1
 		hi = baked.size() - 1
 
+	# --- baseline: рандомная расстановка near/far по FAR_PROB ---
 	var slots: Array[Vector2] = []
 	var attempts := 0
 	var max_attempts := n * TRIES_PER_SLOT
@@ -79,27 +81,57 @@ static func generate_slots(layout: MapLayout, rng: RandomNumberGenerator) -> Pac
 		attempts += 1
 		var i := rng.randi_range(lo, hi - 1)
 		var cand := _perpendicular_candidate(baked, i, rng)
-		if not inner.has_point(cand):
-			continue
-		if cand.distance_to(layout.base_position) < BASE_CLEAR:
-			continue
-		# не слипнуться: зазор МЕЖДУ КРАЯМИ AABB, тот же предикат, что у валидатора
-		var overlap := false
-		for s in slots:
-			if MapValidator._aabb_gap(cand, s, SLOT_HALF) < SLOT_GAP:
-				overlap = true
-				break
-		if overlap:
-			continue
-		var d := MapValidator._min_distance_to_polyline(cand, baked)
-		if d < MapValidator.SLOT_CLEARANCE or d > MapValidator.SLOT_FAR_DIST:
+		if not _passes_slot_filters(cand, baked, slots, layout, inner):
 			continue
 		slots.append(cand)
+
+	# --- guarantee-pass: инвариант дизайна «на карте есть гнездо снайпера». ---
+	# Far-позиции систематически теряются в baseline (inner/overlap режут внешние
+	# дальше от дороги). Если ни одного far — принудительно ищем один с увеличенным
+	# бюджетом и докидываем сверх n (макс SLOT_COUNT_MAX + 1). Если не нашли —
+	# оставляем как есть: far=0 допустим в крайнем случае (арена реально забита),
+	# но теперь это редкость, а не каждая пятая карта.
+	if _count_far(slots, baked) == 0 and slots.size() < SLOT_COUNT_MAX + 1:
+		var g_attempts := 0
+		while g_attempts < GUARANTEE_TRIES:
+			g_attempts += 1
+			var i := rng.randi_range(lo, hi - 1)
+			var cand := _perpendicular_candidate(baked, i, rng, true)   # force_far
+			if not _passes_slot_filters(cand, baked, slots, layout, inner):
+				continue
+			slots.append(cand)
+			break
 
 	return PackedVector2Array(slots)
 
 
-static func _perpendicular_candidate(baked: PackedVector2Array, i: int, rng: RandomNumberGenerator) -> Vector2:
+# Единый предикат «кандидат-слот валиден»: арена, база, зазор до соседей,
+# коридор полезности. Вызывается и baseline-, и guarantee-циклом — DRY.
+static func _passes_slot_filters(cand: Vector2, baked: PackedVector2Array, slots: Array[Vector2], layout: MapLayout, inner: Rect2) -> bool:
+	if not inner.has_point(cand):
+		return false
+	if cand.distance_to(layout.base_position) < BASE_CLEAR:
+		return false
+	for s in slots:
+		if MapValidator._aabb_gap(cand, s, SLOT_HALF) < SLOT_GAP:
+			return false
+	var d := MapValidator._min_distance_to_polyline(cand, baked)
+	if d < MapValidator.SLOT_CLEARANCE or d > MapValidator.SLOT_FAR_DIST:
+		return false
+	return true
+
+
+static func _count_far(slots: Array[Vector2], baked: PackedVector2Array) -> int:
+	var c := 0
+	for s in slots:
+		if MapValidator._min_distance_to_polyline(s, baked) > MapValidator.SLOT_NEAR_DIST:
+			c += 1
+	return c
+
+
+# Точка + перпендикуляр к локальному направлению сегмента, смещение на d класса.
+# force_far=true игнорирует FAR_PROB и всегда берёт дальнюю дистанцию (guarantee).
+static func _perpendicular_candidate(baked: PackedVector2Array, i: int, rng: RandomNumberGenerator, force_far: bool = false) -> Vector2:
 	var a := baked[maxi(i - 1, 0)]
 	var b := baked[mini(i + 1, baked.size() - 1)]
 	var dir := b - a
@@ -108,7 +140,7 @@ static func _perpendicular_candidate(baked: PackedVector2Array, i: int, rng: Ran
 	dir = dir.normalized()
 	var normal := Vector2(-dir.y, dir.x)
 	var side := 1.0 if rng.randf() < 0.5 else -1.0
-	var far := rng.randf() < FAR_PROB
+	var far := force_far or rng.randf() < FAR_PROB
 	var d := rng.randf_range(FAR_MIN, FAR_MAX) if far else rng.randf_range(NEAR_MIN, NEAR_MAX)
 	return baked[i] + normal * side * d
 

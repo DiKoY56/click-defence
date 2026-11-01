@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PropData" format=3 uid="uid://ufepfri8ky07"]
+
+[ext_resource type="Script" uid="uid://cl6kvrwm4mkxt" path="res://scripts/data/prop_data.gd" id="1_i42u3"]
+
+[resource]
+script = ExtResource("1_i42u3")
+id = &"bush"
+weight = 3.0
+clearance_radius = 48.0
+placeholder_color = Color(0.18, 0.3, 0.16, 1)
+metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"
