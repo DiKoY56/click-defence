@@ -7,8 +7,10 @@ func _ready() -> void:
 	%BackButton.pressed.connect(_on_back_pressed)
 	%FullscreenCheck.toggled.connect(func(p: bool) -> void: SaveManager.set_fullscreen(p))
 	%VolumeSlider.value_changed.connect(func(v: float) -> void: SaveManager.set_volume(v))
+	%ProceduralCheck.toggled.connect(func(p: bool) -> void: SaveManager.set_procedural_maps(p))
 	%FullscreenCheck.button_pressed = SaveManager.fullscreen
 	%VolumeSlider.value = SaveManager.volume
+	%ProceduralCheck.button_pressed = SaveManager.procedural_maps
 	_refresh_record_label()
 	
 func _on_play_pressed() -> void:

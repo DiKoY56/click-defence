@@ -10,5 +10,6 @@ role = &"lamp"
 texture = ExtResource("2_uvpil")
 weight = 2.0
 clearance_radius = 26.0
+body_height = 224.0
 placeholder_color = Color(0.55, 0.45, 0.2, 1)
 metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"

@@ -10,5 +10,6 @@ role = &"bench"
 texture = ExtResource("2_ltaj2")
 weight = 2.0
 clearance_radius = 56.0
+body_height = 64.0
 placeholder_color = Color(0.34, 0.24, 0.15, 1)
 metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"

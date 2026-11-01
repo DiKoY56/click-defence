@@ -8,5 +8,6 @@ id = &"tree_oak"
 role = &"tree"
 weight = 3.0
 clearance_radius = 70.0
+body_height = 240.0
 placeholder_color = Color(0.13, 0.22, 0.12, 1)
 metadata/_custom_type_script = "uid://cl6kvrwm4mkxt"
