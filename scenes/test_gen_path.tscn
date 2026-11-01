@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bcwoxdyfx5o2a"]
+
+[ext_resource type="Script" uid="uid://chxlvxqdcdy2r" path="res://scripts/test_gen_path.gd" id="1_bt4k1"]
+
+[node name="TestGenPath" type="Node2D" unique_id=967627727]
+script = ExtResource("1_bt4k1")
