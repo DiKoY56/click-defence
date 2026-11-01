@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bqd6lnbrw73ss"]
+
+[ext_resource type="Script" uid="uid://bua02w4ttrttj" path="res://scripts/test_gen_map.gd" id="1_11ara"]
+
+[node name="TestGenMap" type="Node2D" unique_id=925912936]
+script = ExtResource("1_11ara")
