@@ -1,26 +1,15 @@
 extends Node2D
 
-const MAPS: Array[PackedScene] = [
-	preload("res://scenes/maps/map_1.tscn"),
-	preload("res://scenes/maps/map_2.tscn"),
-	preload("res://scenes/maps/map_3.tscn"),
-]
-
 func _ready() -> void:
 	UpgradeManager.reset()
 	EconomyManager.reset()
 	WaveManager.reset()
 	BuffManager.reset()
 
-	# Источник карты: процедурная (ProceduralMap сам делает generate->validate->
-	# retry->fallback->build geometry+decor и пробрасывает .enemy_path/.base в том
-	# же виде, что map.gd) или рукописная. Обе ветки дают узел с ГОТОВЫМИ полями
-	# к моменту add_child, поэтому дальше код един и не различает источник.
-	var map: Node2D
-	if SaveManager.procedural_maps:
-		map = ProceduralMap.new()
-	else:
-		map = MAPS.pick_random().instantiate()
+	# Один пайплайн: ProceduralMap сам решает источник (генератор или авторский пул)
+	# и отдаёт .enemy_path/.base в том же виде, что раньше отдавали map_*.tscn.
+	var map := ProceduralMap.new()
+	map.use_procedural = SaveManager.procedural_maps
 	$MapHolder.add_child(map)
 
 	$EnemySpawner.path = map.enemy_path
@@ -37,7 +26,7 @@ func _on_wave_completed(wave_number: int) -> void:
 	if wave_number < WaveManager.TOTAL_WAVES:
 		$UI/BuffScreen.show_choices()
 	else:
-		WaveManager.proceed_to_next_wave()   # после 10й сразу к победе
+		WaveManager.proceed_to_next_wave()
 
 func _on_game_won() -> void:
 	var new_record := SaveManager.submit_run(WaveManager.TOTAL_WAVES, WaveManager.total_kills, true)

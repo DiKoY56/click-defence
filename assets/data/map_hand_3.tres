@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/map_layout.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+path_points = PackedVector2Array(-147, 202, 262, 202, 268, 441, 1104, 453, 1113, 915, 1676, 915)
+base_position = Vector2(1734, 884)
+tower_slot_positions = PackedVector2Array(125, 364, 1452, 796, 965, 626, 604, 301, 577, 780)

@@ -1,10 +1,8 @@
 class_name MapBuilder
 extends Node2D
-# Собирает карту из MapLayout в рантайме, повторяя структуру ваших .tscn-карт.
-# Наружу отдаёт enemy_path / base в том же виде, что и map.gd — поэтому main.gd
-# работает с собранной картой без изменений (duck-typing по полям).
-# Декор (земля + тропа + пропсы) включается, если передан rng; без него — чистая
-# геометрия (старые тесты Фаз A/C вызывают build(layout) и поведения не меняют).
+# Собирает карту из MapLayout в рантайме, повторяя структуру .tscn-карт.
+# Наружу отдаёт enemy_path / base в том же виде, что и map.gd (duck-typing).
+# Декор (земля + тропа + пропсы) включается, если передан rng.
 
 const BaseScene: PackedScene = preload("res://scenes/base.tscn")
 const BaseScript: Script = preload("res://scripts/base.gd")
@@ -19,7 +17,6 @@ var base: Base = null
 var ground: Ground = null
 
 func build(layout: MapLayout, rng: RandomNumberGenerator = null) -> void:
-	# --- путь врагов ---
 	enemy_path = Path2D.new()
 	enemy_path.name = "EnemyPath"
 	var curve := Curve2D.new()
@@ -28,7 +25,6 @@ func build(layout: MapLayout, rng: RandomNumberGenerator = null) -> void:
 	enemy_path.curve = curve
 	add_child(enemy_path)
 
-	# --- база (скрипт назначаем явно: в base.tscn его нет в корне) ---
 	var base_node := BaseScene.instantiate()
 	base_node.set_script(BaseScript)
 	base_node.position = layout.base_position
@@ -37,14 +33,12 @@ func build(layout: MapLayout, rng: RandomNumberGenerator = null) -> void:
 	if base == null:
 		push_error("MapBuilder: не удалось превратить base.tscn в Base (проверь base.gd)")
 
-	# --- слоты под башни ---
 	for i in layout.tower_slot_positions.size():
 		var slot := TowerSlotScene.instantiate()
 		slot.name = "TowerSlot%d" % (i + 1)
 		slot.position = layout.tower_slot_positions[i]
 		add_child(slot)
 
-	# --- декор (только если передан rng) ---
 	if rng != null:
 		_build_decor(layout, rng)
 
@@ -54,11 +48,10 @@ func _build_decor(layout: MapLayout, rng: RandomNumberGenerator) -> void:
 	ground.z_index = GROUND_Z
 	add_child(ground)
 
-	# Тропа: по той же baked-кривой, что читает враг (единый источник геометрии).
 	var trail := Trail.new()
 	trail.name = "Trail"
 	trail.z_index = TRAIL_Z
-	trail.setup(layout.path_points)
+	trail.setup(layout.path_points, layout.base_position)   # ← база нужна для обрезки хвоста
 	add_child(trail)
 
 	var props := PropGenerator.generate_props(layout, rng)

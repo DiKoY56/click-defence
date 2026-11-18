@@ -9,7 +9,7 @@ extends RefCounted
 
 const ARENA_SIZE := Vector2(1920, 1080)
 const MARGIN_SPAWN := 150.0
-const SLOT_CLEARANCE := 100.0     # слот не ближе этого к пути (не на дороге)
+const SLOT_CLEARANCE := 160.0     # слот не ближе этого к пути (не на дороге)
 const SLOT_NEAR_DIST := 240.0     # граница класса near/far (радиус бабушки)
 const SLOT_FAR_DIST := 400.0      # максимально достижимый (радиус снайпера)
 const SLOT_EDGE_MARGIN := 60.0
@@ -45,6 +45,15 @@ static func validate_path(layout: MapLayout) -> PackedStringArray:
 	for i in range(1, pts.size() - 1):
 		if pts[i].y < 0.0 or pts[i].y > ARENA_SIZE.y:
 			errors.append("Промежуточная точка %d %s вне вертикального окна арены." % [i, str(pts[i])])
+
+	# Вход в базу под прямым углом: последний отрезок строго осевой
+	# (горизонталь -> перпендикуляр вертикальной грани, вертикаль -> горизонтальной).
+	var last := pts[pts.size() - 1]
+	var prev := pts[pts.size() - 2]
+	var dx := absf(last.x - prev.x)
+	var dy := absf(last.y - prev.y)
+	if dx > 0.5 and dy > 0.5:
+		errors.append("Тропа входит в базу не под прямым углом (dx=%.0f, dy=%.0f)." % [dx, dy])
 
 	var baked := _bake_path(pts)
 	var length := _polyline_length(baked)

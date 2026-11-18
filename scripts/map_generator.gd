@@ -1,10 +1,8 @@
 class_name MapGenerator
 extends RefCounted
-# Генерирует контрольные точки пути (спавн за левым краем -> база) с монотонным X
-# и расставляет слоты башен по перпендикулярам к пути. Монотонный X = гарантия
-# отсутствия самопересечений и продвижения к базе. Чистые функции от rng:
-# тот же сид -> та же карта (воспроизводимость для дебага и контроль-прогонов).
-# Геометрические предикаты берутся из MapValidator (единый источник истины).
+# Генерирует путь (монотонный X) и слоты. Финиш пути — прямой участок, входящий
+# в ларёк под 90° к его левой грани, на уровне низа ларька.
+# Геометрические предикаты — из MapValidator (единый источник истины).
 
 const ARENA_SIZE := Vector2(1920, 1080)
 const MARGIN_SPAWN := 150.0
@@ -15,6 +13,9 @@ const AMP := 380.0
 const PULL_TO_CENTER := 0.30
 const POINTS_MIN := 5
 const POINTS_MAX := 8
+const BASE_HALF := 128.0        # полуширина/полувсота ларька (арт 128 * 2 / 2)
+const ENTRY_INSET := 20.0       # насколько вход выше нижней кромки ларька
+const APPROACH_LEN := 200.0     # длина прямого участка перед входом (перпендикуляр)
 
 # --- слоты ---
 const SLOT_COUNT_MIN := 5
@@ -22,13 +23,13 @@ const SLOT_COUNT_MAX := 7
 const SLOT_HALF := 64.0
 const SLOT_GAP := 28.0
 const BASE_CLEAR := 120.0
-const NEAR_MIN := 120.0
+const NEAR_MIN := 160.0
 const NEAR_MAX := 220.0
 const FAR_MIN := 260.0
 const FAR_MAX := 380.0
 const FAR_PROB := 0.4
 const TRIES_PER_SLOT := 18
-const GUARANTEE_TRIES := 30       # бюджет ретраев на принудительный far
+const GUARANTEE_TRIES := 30
 const PATH_T_LO := 0.12
 const PATH_T_HI := 0.88
 
@@ -39,10 +40,15 @@ static func generate_path(rng: RandomNumberGenerator, base_pos: Vector2) -> Pack
 		-(MARGIN_SPAWN + rng.randf_range(0.0, 80.0)),
 		rng.randf_range(V_PAD, ARENA_SIZE.y - V_PAD)
 	)
-	var end := Vector2(base_pos.x - H_PAD_END, base_pos.y)
+	# Вход: у НИЗА левой грани ларька.
+	var entry := Vector2(base_pos.x - H_PAD_END, base_pos.y + BASE_HALF - ENTRY_INSET)
+	# Разворот: строго слева от входа на ТОЙ ЖЕ Y => последний отрезок горизонтален,
+	# то есть перпендикулярен вертикальной грани ларька (вход под 90°).
+	var approach := Vector2(entry.x - APPROACH_LEN, entry.y)
 
+	# Змейку строим до точки разворота, а не до самого входа.
 	var k := rng.randi_range(POINTS_MIN, POINTS_MAX)
-	var xs := _split_horizontal(start.x, end.x, k, rng)
+	var xs := _split_horizontal(start.x, approach.x, k, rng)
 
 	var pts := PackedVector2Array()
 	pts.append(start)
@@ -53,7 +59,8 @@ static func generate_path(rng: RandomNumberGenerator, base_pos: Vector2) -> Pack
 		var p := Vector2(xs[i], y)
 		pts.append(p)
 		prev = p
-	pts.append(end)
+	pts.append(approach)   # выход на прямую
+	pts.append(entry)      # вход в ларёк под прямым углом
 	return pts
 
 
@@ -73,7 +80,6 @@ static func generate_slots(layout: MapLayout, rng: RandomNumberGenerator) -> Pac
 		lo = 1
 		hi = baked.size() - 1
 
-	# --- baseline: рандомная расстановка near/far по FAR_PROB ---
 	var slots: Array[Vector2] = []
 	var attempts := 0
 	var max_attempts := n * TRIES_PER_SLOT
@@ -85,18 +91,12 @@ static func generate_slots(layout: MapLayout, rng: RandomNumberGenerator) -> Pac
 			continue
 		slots.append(cand)
 
-	# --- guarantee-pass: инвариант дизайна «на карте есть гнездо снайпера». ---
-	# Far-позиции систематически теряются в baseline (inner/overlap режут внешние
-	# дальше от дороги). Если ни одного far — принудительно ищем один с увеличенным
-	# бюджетом и докидываем сверх n (макс SLOT_COUNT_MAX + 1). Если не нашли —
-	# оставляем как есть: far=0 допустим в крайнем случае (арена реально забита),
-	# но теперь это редкость, а не каждая пятая карта.
 	if _count_far(slots, baked) == 0 and slots.size() < SLOT_COUNT_MAX + 1:
-		var g_attempts := 0
-		while g_attempts < GUARANTEE_TRIES:
-			g_attempts += 1
+		var g := 0
+		while g < GUARANTEE_TRIES:
+			g += 1
 			var i := rng.randi_range(lo, hi - 1)
-			var cand := _perpendicular_candidate(baked, i, rng, true)   # force_far
+			var cand := _perpendicular_candidate(baked, i, rng, true)
 			if not _passes_slot_filters(cand, baked, slots, layout, inner):
 				continue
 			slots.append(cand)
@@ -105,8 +105,6 @@ static func generate_slots(layout: MapLayout, rng: RandomNumberGenerator) -> Pac
 	return PackedVector2Array(slots)
 
 
-# Единый предикат «кандидат-слот валиден»: арена, база, зазор до соседей,
-# коридор полезности. Вызывается и baseline-, и guarantee-циклом — DRY.
 static func _passes_slot_filters(cand: Vector2, baked: PackedVector2Array, slots: Array[Vector2], layout: MapLayout, inner: Rect2) -> bool:
 	if not inner.has_point(cand):
 		return false
@@ -129,8 +127,6 @@ static func _count_far(slots: Array[Vector2], baked: PackedVector2Array) -> int:
 	return c
 
 
-# Точка + перпендикуляр к локальному направлению сегмента, смещение на d класса.
-# force_far=true игнорирует FAR_PROB и всегда берёт дальнюю дистанцию (guarantee).
 static func _perpendicular_candidate(baked: PackedVector2Array, i: int, rng: RandomNumberGenerator, force_far: bool = false) -> Vector2:
 	var a := baked[maxi(i - 1, 0)]
 	var b := baked[mini(i + 1, baked.size() - 1)]
