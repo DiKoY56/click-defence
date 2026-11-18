@@ -3,14 +3,15 @@ extends Node2D
 # Собирает карту из MapLayout в рантайме, повторяя структуру ваших .tscn-карт.
 # Наружу отдаёт enemy_path / base в том же виде, что и map.gd — поэтому main.gd
 # работает с собранной картой без изменений (duck-typing по полям).
-# Декор (земля + пропсы) включается, если передан rng; без него — чистая геометрия
-# (старые тесты Фаз A/C вызывают build(layout) и поведения не меняют).
+# Декор (земля + тропа + пропсы) включается, если передан rng; без него — чистая
+# геометрия (старые тесты Фаз A/C вызывают build(layout) и поведения не меняют).
 
 const BaseScene: PackedScene = preload("res://scenes/base.tscn")
 const BaseScript: Script = preload("res://scripts/base.gd")
 const TowerSlotScene: PackedScene = preload("res://scenes/tower_slot.tscn")
 
 const GROUND_Z := -20
+const TRAIL_Z := -15
 const PROP_Z := -10
 
 var enemy_path: Path2D = null
@@ -52,6 +53,13 @@ func _build_decor(layout: MapLayout, rng: RandomNumberGenerator) -> void:
 	ground.name = "Ground"
 	ground.z_index = GROUND_Z
 	add_child(ground)
+
+	# Тропа: по той же baked-кривой, что читает враг (единый источник геометрии).
+	var trail := Trail.new()
+	trail.name = "Trail"
+	trail.z_index = TRAIL_Z
+	trail.setup(layout.path_points)
+	add_child(trail)
 
 	var props := PropGenerator.generate_props(layout, rng)
 	for p in props:
